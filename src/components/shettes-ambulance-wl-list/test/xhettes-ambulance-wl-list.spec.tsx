@@ -1,13 +1,13 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { ShettesAmbulanceWlList } from '../shettes-ambulance-wl-list';
+import { xhettesAmbulanceWlList } from '../xhettes-ambulance-wl-list';
 
-describe('shettes-ambulance-wl-list', () => {
+describe('xhettes-ambulance-wl-list', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [ShettesAmbulanceWlList],
-      html: `<shettes-ambulance-wl-list></shettes-ambulance-wl-list>`,
+      components: [xhettesAmbulanceWlList],
+      html: `<xhettes-ambulance-wl-list></xhettes-ambulance-wl-list>`,
     });
-    const wlList = page.rootInstance as ShettesAmbulanceWlList;
+    const wlList = page.rootInstance as xhettesAmbulanceWlList;
     const expectedPatients = wlList?.waitingPatients?.length;
 
     const items = page.root.shadowRoot.querySelectorAll('md-list-item');

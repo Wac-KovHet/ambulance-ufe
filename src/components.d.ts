@@ -6,32 +6,32 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface ShettesAmbulanceWlList {
+    interface xhettesAmbulanceWlList {
     }
 }
 declare global {
-    interface HTMLShettesAmbulanceWlListElement extends Components.ShettesAmbulanceWlList, HTMLStencilElement {
+    interface HTMLxhettesAmbulanceWlListElement extends Components.xhettesAmbulanceWlList, HTMLStencilElement {
     }
-    var HTMLShettesAmbulanceWlListElement: {
-        prototype: HTMLShettesAmbulanceWlListElement;
-        new (): HTMLShettesAmbulanceWlListElement;
+    var HTMLxhettesAmbulanceWlListElement: {
+        prototype: HTMLxhettesAmbulanceWlListElement;
+        new (): HTMLxhettesAmbulanceWlListElement;
     };
     interface HTMLElementTagNameMap {
-        "shettes-ambulance-wl-list": HTMLShettesAmbulanceWlListElement;
+        "xhettes-ambulance-wl-list": HTMLxhettesAmbulanceWlListElement;
     }
 }
 declare namespace LocalJSX {
-    interface ShettesAmbulanceWlList {
+    interface xhettesAmbulanceWlList {
     }
     interface IntrinsicElements {
-        "shettes-ambulance-wl-list": ShettesAmbulanceWlList;
+        "xhettes-ambulance-wl-list": xhettesAmbulanceWlList;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "shettes-ambulance-wl-list": LocalJSX.ShettesAmbulanceWlList & JSXBase.HTMLAttributes<HTMLShettesAmbulanceWlListElement>;
+            "xhettes-ambulance-wl-list": LocalJSX.xhettesAmbulanceWlList & JSXBase.HTMLAttributes<HTMLxhettesAmbulanceWlListElement>;
         }
     }
 }
