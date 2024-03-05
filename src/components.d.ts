@@ -6,32 +6,94 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface xhettesAmbulanceWlList {
+    interface XhettesAmbulanceWlApp {
+        "basePath": string;
+    }
+    interface XhettesAmbulanceWlEditor {
+        "entryId": string;
+    }
+    interface XhettesAmbulanceWlList {
     }
 }
+export interface XhettesAmbulanceWlEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXhettesAmbulanceWlEditorElement;
+}
+export interface XhettesAmbulanceWlListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXhettesAmbulanceWlListElement;
+}
 declare global {
-    interface HTMLxhettesAmbulanceWlListElement extends Components.xhettesAmbulanceWlList, HTMLStencilElement {
+    interface HTMLXhettesAmbulanceWlAppElement extends Components.XhettesAmbulanceWlApp, HTMLStencilElement {
     }
-    var HTMLxhettesAmbulanceWlListElement: {
-        prototype: HTMLxhettesAmbulanceWlListElement;
-        new (): HTMLxhettesAmbulanceWlListElement;
+    var HTMLXhettesAmbulanceWlAppElement: {
+        prototype: HTMLXhettesAmbulanceWlAppElement;
+        new (): HTMLXhettesAmbulanceWlAppElement;
+    };
+    interface HTMLXhettesAmbulanceWlEditorElementEventMap {
+        "editor-closed": string;
+    }
+    interface HTMLXhettesAmbulanceWlEditorElement extends Components.XhettesAmbulanceWlEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXhettesAmbulanceWlEditorElementEventMap>(type: K, listener: (this: HTMLXhettesAmbulanceWlEditorElement, ev: XhettesAmbulanceWlEditorCustomEvent<HTMLXhettesAmbulanceWlEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXhettesAmbulanceWlEditorElementEventMap>(type: K, listener: (this: HTMLXhettesAmbulanceWlEditorElement, ev: XhettesAmbulanceWlEditorCustomEvent<HTMLXhettesAmbulanceWlEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXhettesAmbulanceWlEditorElement: {
+        prototype: HTMLXhettesAmbulanceWlEditorElement;
+        new (): HTMLXhettesAmbulanceWlEditorElement;
+    };
+    interface HTMLXhettesAmbulanceWlListElementEventMap {
+        "entry-clicked": string;
+    }
+    interface HTMLXhettesAmbulanceWlListElement extends Components.XhettesAmbulanceWlList, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXhettesAmbulanceWlListElementEventMap>(type: K, listener: (this: HTMLXhettesAmbulanceWlListElement, ev: XhettesAmbulanceWlListCustomEvent<HTMLXhettesAmbulanceWlListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXhettesAmbulanceWlListElementEventMap>(type: K, listener: (this: HTMLXhettesAmbulanceWlListElement, ev: XhettesAmbulanceWlListCustomEvent<HTMLXhettesAmbulanceWlListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXhettesAmbulanceWlListElement: {
+        prototype: HTMLXhettesAmbulanceWlListElement;
+        new (): HTMLXhettesAmbulanceWlListElement;
     };
     interface HTMLElementTagNameMap {
-        "xhettes-ambulance-wl-list": HTMLxhettesAmbulanceWlListElement;
+        "xhettes-ambulance-wl-app": HTMLXhettesAmbulanceWlAppElement;
+        "xhettes-ambulance-wl-editor": HTMLXhettesAmbulanceWlEditorElement;
+        "xhettes-ambulance-wl-list": HTMLXhettesAmbulanceWlListElement;
     }
 }
 declare namespace LocalJSX {
-    interface xhettesAmbulanceWlList {
+    interface XhettesAmbulanceWlApp {
+        "basePath"?: string;
+    }
+    interface XhettesAmbulanceWlEditor {
+        "entryId"?: string;
+        "onEditor-closed"?: (event: XhettesAmbulanceWlEditorCustomEvent<string>) => void;
+    }
+    interface XhettesAmbulanceWlList {
+        "onEntry-clicked"?: (event: XhettesAmbulanceWlListCustomEvent<string>) => void;
     }
     interface IntrinsicElements {
-        "xhettes-ambulance-wl-list": xhettesAmbulanceWlList;
+        "xhettes-ambulance-wl-app": XhettesAmbulanceWlApp;
+        "xhettes-ambulance-wl-editor": XhettesAmbulanceWlEditor;
+        "xhettes-ambulance-wl-list": XhettesAmbulanceWlList;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "xhettes-ambulance-wl-list": LocalJSX.xhettesAmbulanceWlList & JSXBase.HTMLAttributes<HTMLxhettesAmbulanceWlListElement>;
+            "xhettes-ambulance-wl-app": LocalJSX.XhettesAmbulanceWlApp & JSXBase.HTMLAttributes<HTMLXhettesAmbulanceWlAppElement>;
+            "xhettes-ambulance-wl-editor": LocalJSX.XhettesAmbulanceWlEditor & JSXBase.HTMLAttributes<HTMLXhettesAmbulanceWlEditorElement>;
+            "xhettes-ambulance-wl-list": LocalJSX.XhettesAmbulanceWlList & JSXBase.HTMLAttributes<HTMLXhettesAmbulanceWlListElement>;
         }
     }
 }
