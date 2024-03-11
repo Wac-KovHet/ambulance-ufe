@@ -27,7 +27,7 @@ export class XhettesAmbulanceWlEditor {
       this.entry = {
         id: '@new',
         patientId: '',
-        waitingSince: '',
+        waitingSince: new Date().toISOString(),
         estimatedDurationMinutes: 15,
       };
       return this.entry;
@@ -213,6 +213,7 @@ export class XhettesAmbulanceWlEditor {
 
   private async updateEntry() {
     try {
+      console.log(this.entry);
       const api = AmbulanceWaitingListApiFactory(undefined, this.apiBase);
       const response =
         this.entryId === '@new' ? await api.createWaitingListEntry(this.ambulanceId, this.entry) : await api.updateWaitingListEntry(this.ambulanceId, this.entryId, this.entry);
