@@ -12,6 +12,8 @@ export namespace Components {
         "basePath": string;
     }
     interface XhettesAmbulanceWlEditor {
+        "ambulanceId": string;
+        "apiBase": string;
         "entryId": string;
     }
     interface XhettesAmbulanceWlList {
@@ -81,6 +83,8 @@ declare namespace LocalJSX {
         "basePath"?: string;
     }
     interface XhettesAmbulanceWlEditor {
+        "ambulanceId"?: string;
+        "apiBase"?: string;
         "entryId"?: string;
         "onEditor-closed"?: (event: XhettesAmbulanceWlEditorCustomEvent<string>) => void;
     }

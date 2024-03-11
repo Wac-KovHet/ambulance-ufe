@@ -56,7 +56,12 @@ export class XhettesAmbulanceWlApp {
     return (
       <Host>
         {element === 'editor' ? (
-          <xhettes-ambulance-wl-editor entry-id={entryId} oneditor-closed={() => navigate('./list')}></xhettes-ambulance-wl-editor>
+          <xhettes-ambulance-wl-editor
+            entry-id={entryId}
+            ambulance-id={this.ambulanceId}
+            api-base={this.apiBase}
+            oneditor-closed={() => navigate('./list')}
+          ></xhettes-ambulance-wl-editor>
         ) : (
           <xhettes-ambulance-wl-list
             ambulance-id={this.ambulanceId}
