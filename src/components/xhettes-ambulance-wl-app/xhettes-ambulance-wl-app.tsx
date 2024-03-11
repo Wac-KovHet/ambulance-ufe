@@ -13,8 +13,9 @@ declare global {
 })
 export class XhettesAmbulanceWlApp {
   @State() private relativePath = '';
-
   @Prop() basePath: string = '';
+  @Prop() apiBase: string;
+  @Prop() ambulanceId: string;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
@@ -57,7 +58,11 @@ export class XhettesAmbulanceWlApp {
         {element === 'editor' ? (
           <xhettes-ambulance-wl-editor entry-id={entryId} oneditor-closed={() => navigate('./list')}></xhettes-ambulance-wl-editor>
         ) : (
-          <xhettes-ambulance-wl-list onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}></xhettes-ambulance-wl-list>
+          <xhettes-ambulance-wl-list
+            ambulance-id={this.ambulanceId}
+            api-base={this.apiBase}
+            onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}
+          ></xhettes-ambulance-wl-list>
         )}
       </Host>
     );
