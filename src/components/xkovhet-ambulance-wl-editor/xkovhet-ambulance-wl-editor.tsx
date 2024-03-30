@@ -46,6 +46,7 @@ export class XkovhetAmbulanceWlEditor {
     const target = event.target as HTMLInputElement;
     console.log('Slider value: ', target.value);
     this.ambulance.sizeOfWaitingRoom = parseInt(target.value);
+    this.formElement.addEventListener('submit', this.updateAmbulance);
   }
 
   render() {
