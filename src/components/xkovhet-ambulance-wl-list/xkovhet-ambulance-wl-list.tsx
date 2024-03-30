@@ -1,5 +1,4 @@
 import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
-import { AmbulanceWaitingListApiFactory, WaitingListEntry } from '../../api/ambulance-wl';
 
 @Component({
   tag: 'xkovhet-ambulance-wl-list',
@@ -12,51 +11,114 @@ export class XkovhetAmbulanceWlList {
   @Prop() ambulanceId: string;
   @State() errorMessage: string;
 
-  waitingPatients: WaitingListEntry[];
+  loading = true;
 
-  private async getWaitingPatientsAsync(): Promise<WaitingListEntry[]> {
-    try {
-      const response = await AmbulanceWaitingListApiFactory(undefined, this.apiBase).getWaitingListEntries(this.ambulanceId);
-      if (response.status < 299) {
-        return response.data;
-      } else {
-        this.errorMessage = `Cannot retrieve list of waiting patients: ${response.statusText}`;
-      }
-    } catch (err: any) {
-      this.errorMessage = `Cannot retrieve list of waiting patients: ${err.message || 'unknown'}`;
-    }
-    return [];
+  ambulances = [];
+  numberOfAmbulances = 0;
+  numberOfDoctors = 0;
+  numberOfNurses = 0;
+  numberOfPatients = 0;
+
+  private async getAmbulancesAsync() {
+    this.loading = true;
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    return await Promise.resolve([
+      {
+        id: '1',
+        name: 'Cardiology Ambulance',
+        number_of_doctors: 2,
+        number_of_nurses: 3,
+        location: 'A 1.25',
+      },
+      {
+        id: '2',
+        name: 'Chirurgical Ambulance',
+        number_of_doctors: 1,
+        number_of_nurses: 2,
+        location: 'B 3.14',
+      },
+      {
+        id: '3',
+        name: 'Pediatric Ambulance',
+        number_of_doctors: 1,
+        number_of_nurses: 3,
+        location: 'C 2.71',
+      },
+      {
+        id: '4',
+        name: 'General Ambulance',
+        number_of_doctors: 2,
+        number_of_nurses: 4,
+        location: 'D 1.41',
+      },
+      {
+        id: '5',
+        name: 'Oncology Ambulance',
+        number_of_doctors: 3,
+        number_of_nurses: 2,
+        location: 'E 1.61',
+      },
+    ]);
   }
 
   async componentWillLoad() {
-    this.waitingPatients = await this.getWaitingPatientsAsync();
+    this.ambulances = await this.getAmbulancesAsync();
+    this.numberOfAmbulances = this.ambulances.length;
+    this.numberOfDoctors = this.ambulances.reduce((acc, curr) => acc + curr.number_of_doctors, 0);
+    this.numberOfNurses = this.ambulances.reduce((acc, curr) => acc + curr.number_of_nurses, 0);
+    this.loading = false;
   }
 
   render() {
     return (
       <Host>
-        {this.errorMessage ? (
-          <div class="error">{this.errorMessage}</div>
+        {/* Navbar */}
+        <nav class="navbar">
+          <div class="navbar-brand">
+            <md-icon>local_hospital</md-icon>
+            <span class="hospital-name">KovHet</span>
+            <span class="hospital-info">
+              <span class="hospital-address">Ilkovičova 2</span>
+              <span class="hospital-email">kovhet@stuba.sk</span>
+            </span>
+          </div>
+        </nav>
+
+        {/* Card with General Information */}
+        <div class="card">
+          <div class="card-header">General Information</div>
+          <div class="card-body">
+            <p>Number of Ambulances: {this.numberOfAmbulances}</p>
+            <p>Number of Doctors: {this.numberOfDoctors}</p>
+            <p>Number of Nurses: {this.numberOfNurses}</p>
+          </div>
+        </div>
+        {this.loading ? (
+          <h1>Loading...</h1>
         ) : (
-          <md-list>
-            {this.waitingPatients.map(patient => (
-              <md-list-item onClick={() => this.entryClicked.emit(patient.id)}>
-                <div slot="headline">{patient.name}</div>
-                <div slot="supporting-text">{'Predpokladaný vstup: ' + this.isoDateToLocale(patient.estimatedStart)}</div>
-                <md-icon slot="start">person</md-icon>
-              </md-list-item>
+          <md-list class="custom-list">
+            {this.ambulances.map(ambulance => (
+              <div>
+                <md-list-item onClick={() => this.entryClicked.emit(ambulance.id)}>
+                  <div slot="headline">{ambulance.name}</div>
+                  <div slot="supporting-text">{'Location: ' + ambulance.location}</div>
+                  <div slot="supporting-text">{'Doctors: ' + ambulance.number_of_doctors}</div>
+                  <div slot="supporting-text">{'Nurses: ' + ambulance.number_of_nurses}</div>
+                  <md-icon slot="start">emergency</md-icon>
+
+                  <md-filled-icon-button slot="end" class="update-button" onclick={() => this.entryClicked.emit(ambulance.id)}>
+                    <md-icon>edit</md-icon>
+                  </md-filled-icon-button>
+                  <md-filled-icon-button slot="end" class="delete-button" onclick={() => this.entryClicked.emit(ambulance.id)}>
+                    <md-icon>delete</md-icon>
+                  </md-filled-icon-button>
+                </md-list-item>
+                <md-divider />
+              </div>
             ))}
           </md-list>
         )}
-        <md-filled-icon-button class="add-button" onclick={() => this.entryClicked.emit('@new')}>
-          <md-icon>add</md-icon>
-        </md-filled-icon-button>
       </Host>
     );
-  }
-
-  private isoDateToLocale(iso: string) {
-    if (!iso) return '';
-    return new Date(Date.parse(iso)).toLocaleTimeString();
   }
 }

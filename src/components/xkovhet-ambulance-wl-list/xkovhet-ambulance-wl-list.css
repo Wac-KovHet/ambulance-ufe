@@ -21,3 +21,76 @@
   --md-filled-icon-button-container-size: 4rem;
   --md-filled-icon-button-icon-size: 3rem;
 }
+
+.custom-list {
+  border: 1px solid #ddd; /* Add border */
+  border-radius: 5px; /* Add border radius */
+  padding: 10px; /* Add padding */
+}
+
+.custom-list md-list-item {
+  margin-bottom: 10px; /* Add margin between list items */
+}
+
+.custom-list md-list-item:last-child {
+  margin-bottom: 0; /* Remove margin from last list item */
+}
+
+.custom-list md-list-item::before {
+  content: ''; /* Add divider */
+  display: block;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.hospital-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.hospital-info {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.hospital-address,
+.hospital-email {
+  margin-top: 5px;
+}
+
+/* Card styles */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.card-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+md-list {
+  background-color: #d7e9fd;
+}
