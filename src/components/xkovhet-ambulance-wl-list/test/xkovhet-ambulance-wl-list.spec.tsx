@@ -1,10 +1,10 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { XhettesAmbulanceWlList } from '../xhettes-ambulance-wl-list';
+import { XkovhetAmbulanceWlList } from '../xkovhet-ambulance-wl-list';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { WaitingListEntry } from '../../../api/ambulance-wl';
 
-describe('xhettes-ambulance-wl-list', () => {
+describe('xkovhet-ambulance-wl-list', () => {
   const sampleEntries: WaitingListEntry[] = [
     {
       id: 'entry-1',
@@ -37,10 +37,10 @@ describe('xhettes-ambulance-wl-list', () => {
 
     // set proper attributes
     const page = await newSpecPage({
-      components: [XhettesAmbulanceWlList],
-      html: `<xhettes-ambulance-wl-list ambulance-id="test-ambulance" api-base="http://test/api"></xhettes-ambulance-wl-list>`,
+      components: [XkovhetAmbulanceWlList],
+      html: `<xkovhet-ambulance-wl-list ambulance-id="test-ambulance" api-base="http://test/api"></xkovhet-ambulance-wl-list>`,
     });
-    const wlList = page.rootInstance as XhettesAmbulanceWlList;
+    const wlList = page.rootInstance as XkovhetAmbulanceWlList;
     const expectedPatients = wlList?.waitingPatients?.length;
 
     const items = page.root.shadowRoot.querySelectorAll('md-list-item');
@@ -51,11 +51,11 @@ describe('xhettes-ambulance-wl-list', () => {
   it('renders error message on network issues', async () => {
     mock.onGet().networkError();
     const page = await newSpecPage({
-      components: [XhettesAmbulanceWlList],
-      html: `<xhettes-ambulance-wl-list ambulance-id="test-ambulance" api-base="http://test/api"></xhettes-ambulance-wl-list>`,
+      components: [XkovhetAmbulanceWlList],
+      html: `<xkovhet-ambulance-wl-list ambulance-id="test-ambulance" api-base="http://test/api"></xkovhet-ambulance-wl-list>`,
     });
 
-    const wlList = page.rootInstance as XhettesAmbulanceWlList;
+    const wlList = page.rootInstance as XkovhetAmbulanceWlList;
     const expectedPatients = wlList?.waitingPatients?.length;
 
     const errorMessage = page.root.shadowRoot.querySelectorAll('.error');

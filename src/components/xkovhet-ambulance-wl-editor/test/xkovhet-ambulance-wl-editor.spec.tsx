@@ -1,10 +1,10 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { XhettesAmbulanceWlEditor } from '../xhettes-ambulance-wl-editor';
+import { XkovhetAmbulanceWlEditor } from '../xkovhet-ambulance-wl-editor';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { Condition, WaitingListEntry } from '../../../api/ambulance-wl';
 
-describe('xhettes-ambulance-wl-editor', () => {
+describe('xkovhet-ambulance-wl-editor', () => {
   const sampleEntry: WaitingListEntry = {
     id: 'entry-1',
     patientId: 'p-1',
@@ -52,10 +52,10 @@ describe('xhettes-ambulance-wl-editor', () => {
     mock.onGet(/^.*\/condition$/).reply(200, sampleConditions);
 
     const page = await newSpecPage({
-      components: [XhettesAmbulanceWlEditor],
-      html: `<xhettes-ambulance-wl-editor entry-id="test-entry"
+      components: [XkovhetAmbulanceWlEditor],
+      html: `<xkovhet-ambulance-wl-editor entry-id="test-entry"
            ambulance-id="test-ambulance" api-base="http://sample.test/api">
-        </xhettes-ambulance-wl-editor>`,
+        </xkovhet-ambulance-wl-editor>`,
     });
     await delay(300);
     await page.waitForChanges();
@@ -74,8 +74,8 @@ describe('xhettes-ambulance-wl-editor', () => {
     mock.onGet(/^.*\/condition$/).reply(200, sampleConditions);
 
     const page = await newSpecPage({
-      components: [XhettesAmbulanceWlEditor],
-      html: `<xhettes-ambulance-wl-editor entry-id="test-entry" ambulance-id="test-ambulance" api-base="http://sample.test/api"></xhettes-ambulance-wl-editor>`,
+      components: [XkovhetAmbulanceWlEditor],
+      html: `<xkovhet-ambulance-wl-editor entry-id="test-entry" ambulance-id="test-ambulance" api-base="http://sample.test/api"></xkovhet-ambulance-wl-editor>`,
     });
     let items: any = await page.root.shadowRoot.querySelectorAll('md-filled-text-field');
 

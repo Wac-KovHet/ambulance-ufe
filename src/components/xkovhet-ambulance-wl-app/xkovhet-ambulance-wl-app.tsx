@@ -7,11 +7,11 @@ declare global {
 }
 
 @Component({
-  tag: 'xhettes-ambulance-wl-app',
-  styleUrl: 'xhettes-ambulance-wl-app.css',
+  tag: 'xkovhet-ambulance-wl-app',
+  styleUrl: 'xkovhet-ambulance-wl-app.css',
   shadow: true,
 })
-export class XhettesAmbulanceWlApp {
+export class XkovhetAmbulanceWlApp {
   @State() private relativePath = '';
   @Prop() basePath: string = '';
   @Prop() apiBase: string;
@@ -56,18 +56,18 @@ export class XhettesAmbulanceWlApp {
     return (
       <Host>
         {element === 'editor' ? (
-          <xhettes-ambulance-wl-editor
+          <xkovhet-ambulance-wl-editor
             entry-id={entryId}
             ambulance-id={this.ambulanceId}
             api-base={this.apiBase}
             oneditor-closed={() => navigate('./list')}
-          ></xhettes-ambulance-wl-editor>
+          ></xkovhet-ambulance-wl-editor>
         ) : (
-          <xhettes-ambulance-wl-list
+          <xkovhet-ambulance-wl-list
             ambulance-id={this.ambulanceId}
             api-base={this.apiBase}
             onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}
-          ></xhettes-ambulance-wl-list>
+          ></xkovhet-ambulance-wl-list>
         )}
       </Host>
     );
