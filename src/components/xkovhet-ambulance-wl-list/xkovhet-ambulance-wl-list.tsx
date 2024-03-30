@@ -88,9 +88,18 @@ export class XkovhetAmbulanceWlList {
         <div class="card">
           <div class="card-header">General Information</div>
           <div class="card-body">
-            <p>Number of Ambulances: {this.numberOfAmbulances}</p>
-            <p>Number of Doctors: {this.numberOfDoctors}</p>
-            <p>Number of Nurses: {this.numberOfNurses}</p>
+            <div class="info-item">
+              <md-icon>local_hospital</md-icon>
+              <p>Number of Ambulances: {this.numberOfAmbulances}</p>
+            </div>
+            <div class="info-item">
+              <md-icon>person</md-icon>
+              <p>Number of Doctors: {this.numberOfDoctors}</p>
+            </div>
+            <div class="info-item">
+              <md-icon>nurse</md-icon>
+              <p>Number of Nurses: {this.numberOfNurses}</p>
+            </div>
           </div>
         </div>
         {this.loading ? (
