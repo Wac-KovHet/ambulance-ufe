@@ -13,8 +13,6 @@ export namespace Components {
     }
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId": string;
-        "apiBase": string;
-        "entryId": string;
     }
     interface XkovhetAmbulanceWlList {
         "ambulanceId": string;
@@ -84,8 +82,6 @@ declare namespace LocalJSX {
     }
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId"?: string;
-        "apiBase"?: string;
-        "entryId"?: string;
         "onEditor-closed"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlList {

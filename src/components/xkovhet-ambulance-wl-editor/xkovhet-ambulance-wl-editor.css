@@ -41,3 +41,9 @@ form {
 md-divider {
   margin-bottom: var(--_wl-editor_gap);
 }
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

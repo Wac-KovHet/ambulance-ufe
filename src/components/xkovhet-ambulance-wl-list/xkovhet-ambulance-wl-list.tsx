@@ -1,5 +1,4 @@
 import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
-
 @Component({
   tag: 'xkovhet-ambulance-wl-list',
   styleUrl: 'xkovhet-ambulance-wl-list.css',
@@ -21,7 +20,7 @@ export class XkovhetAmbulanceWlList {
 
   private async getAmbulancesAsync() {
     this.loading = true;
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // await new Promise(resolve => setTimeout(resolve, 1500));
     return await Promise.resolve([
       {
         id: '1',
@@ -83,7 +82,6 @@ export class XkovhetAmbulanceWlList {
             </span>
           </div>
         </nav>
-
         {/* Card with General Information */}
         <div class="card">
           <div class="card-header">General Information</div>
@@ -127,6 +125,16 @@ export class XkovhetAmbulanceWlList {
             ))}
           </md-list>
         )}
+        {/* adding new ambulance button */}
+
+        {/* create button with margin top 10 */}
+
+        <md-filled-button onclick={() => this.entryClicked.emit('@new')}>
+          <md-icon class="mt-3" slot="icon">
+            add
+          </md-icon>
+          Add New Ambulance
+        </md-filled-button>
       </Host>
     );
   }

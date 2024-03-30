@@ -48,28 +48,41 @@ export class XkovhetAmbulanceWlApp {
       entryId = this.relativePath.split('/')[1];
     }
 
+    if (this.relativePath === 'detail') {
+      element = 'detail';
+    }
+
     const navigate = (path: string) => {
       const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
       window.navigation.navigate(absolute);
     };
 
-    return (
-      <Host>
-        {element === 'editor' ? (
+    switch (element) {
+      case 'editor':
+        element = (
           <xkovhet-ambulance-wl-editor
             entry-id={entryId}
             ambulance-id={this.ambulanceId}
             api-base={this.apiBase}
             oneditor-closed={() => navigate('./list')}
           ></xkovhet-ambulance-wl-editor>
-        ) : (
+        );
+        entryId = this.relativePath.split('/')[1];
+        break;
+      case 'detail':
+        element = <xkovhet-ambulance-wl-detail ambulance-id={this.ambulanceId} api-base={this.apiBase}></xkovhet-ambulance-wl-detail>;
+        break;
+      default:
+        element = (
           <xkovhet-ambulance-wl-list
             ambulance-id={this.ambulanceId}
             api-base={this.apiBase}
             onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}
           ></xkovhet-ambulance-wl-list>
-        )}
-      </Host>
-    );
+        );
+        break;
+    }
+
+    return <Host>{element}</Host>;
   }
 }
