@@ -46,6 +46,8 @@ export class XkovhetAmbulanceWlList {
 
       if (response.status < 299) {
         console.log('Deleted ambulance');
+        // Remove the ambulance from the list
+        this.ambulances = this.ambulances.filter(ambulance => ambulance.id !== ambulanceId);
       } else {
         this.errorMessage = `Cannot delete ambulance: ${response.statusText}`;
       }
