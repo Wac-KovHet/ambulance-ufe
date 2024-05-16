@@ -18,7 +18,7 @@ export class XkovhetAmbulanceWlEmployeeEditor {
     name: '',
     surname: '',
     dateOfBirth: '',
-    position: 'doctor',
+    position: '',
     wage: 0,
   };
 
@@ -77,7 +77,7 @@ export class XkovhetAmbulanceWlEmployeeEditor {
       this.render();
     }
 
-    //this.editorClosed.emit('confirm');
+    this.editorClosed.emit('confirm');
   }
 
   render() {
@@ -114,10 +114,10 @@ export class XkovhetAmbulanceWlEmployeeEditor {
                 </md-filled-text-field>
 
                 <md-filled-select label="Position" required>
-                  <md-select-option value="apple">
+                  <md-select-option value="Doctor">
                     <div slot="headline">Doctor</div>
                   </md-select-option>
-                  <md-select-option value="apricot">
+                  <md-select-option value="Nurse">
                     <div slot="headline">Nurse</div>
                   </md-select-option>
                   <md-icon slot="leading-icon">work</md-icon>
