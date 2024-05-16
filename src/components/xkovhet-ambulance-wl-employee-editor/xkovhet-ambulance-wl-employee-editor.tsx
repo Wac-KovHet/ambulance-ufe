@@ -41,12 +41,32 @@ export class XkovhetAmbulanceWlEmployeeEditor {
     }
   }
 
-  private updateEmployee() {
+  private async updateEmployee() {
     if (!this.formElement.checkValidity()) {
       this.formElement.reportValidity();
       return;
     }
     this.formElement.reportValidity();
+
+    try {
+      const employeRequest: EmployeeRequest = {
+        name: this.employee.name,
+        surname: this.employee.surname,
+        dateOfBirth: this.employee.dateOfBirth,
+        position: this.employee.position,
+        wage: this.employee.wage,
+      };
+      const api = EmployeeListApiFactory(undefined, this.apiBase);
+      const response = await api.updateEmployee(this.ambulanceId, this.employeeId, employeRequest);
+
+      if (response.status === 200) {
+        this.editorClosed.emit('confirm');
+      }
+    } catch (error) {
+      console.error('Failed to update employee', error);
+      this.errorMessage = 'Failed to update employee';
+      this.render();
+    }
     this.editorClosed.emit('confirm');
   }
 
