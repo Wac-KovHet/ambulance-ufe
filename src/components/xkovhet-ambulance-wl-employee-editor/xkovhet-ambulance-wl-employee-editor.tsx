@@ -133,7 +133,13 @@ export class XkovhetAmbulanceWlEmployeeEditor {
                   <md-icon slot="leading-icon">date_range</md-icon>
                 </md-filled-text-field>
 
-                <md-filled-select label="Position" required>
+                <md-filled-select
+                  label="Position"
+                  required
+                  onInput={(ev: InputEvent) => {
+                    this.employee.position = (ev.target as HTMLInputElement).value;
+                  }}
+                >
                   <md-select-option value="Doctor">
                     <div slot="headline">Doctor</div>
                   </md-select-option>
