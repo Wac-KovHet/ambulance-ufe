@@ -127,14 +127,13 @@ export class XkovhetAmbulanceWlEditor {
             <md-icon slot="icon">save</md-icon>
             Save
           </md-filled-button>
+          <md-outlined-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
+            <md-icon slot="icon">person</md-icon>
+            Employee List
+          </md-outlined-button>
         </div>
 
         {/* add button to open employee list */}
-
-        <md-filled-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
-          <md-icon slot="icon">save</md-icon>
-          Employee List
-        </md-filled-button>
       </Host>
     );
   }

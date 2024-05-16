@@ -1,6 +1,7 @@
-import { Component, Host, h, State } from '@stencil/core';
+import { Component, Host, h, State, Event, EventEmitter } from '@stencil/core';
 
 interface Employee {
+  id: string;
   name: string;
   surname: string;
   dateOfBirth: string;
@@ -14,9 +15,11 @@ interface Employee {
   shadow: true,
 })
 export class XkovhetAmbulanceWlEmployeeList {
+  @Event({ eventName: 'employee-clicked' }) employeeClicked: EventEmitter<string>;
+
   @State() employees: Employee[] = [
-    { name: 'John', surname: 'Doe', dateOfBirth: '1985-01-15', position: 'doctor', wage: 5000 },
-    { name: 'Jane', surname: 'Smith', dateOfBirth: '1990-05-22', position: 'nurse', wage: 3500 },
+    { id: '1', name: 'John', surname: 'Doe', dateOfBirth: '1985-01-15', position: 'doctor', wage: 5000 },
+    { id: '2', name: 'Jane', surname: 'Smith', dateOfBirth: '1990-05-22', position: 'nurse', wage: 3500 },
     // Add more employees as needed
   ];
 
@@ -26,7 +29,7 @@ export class XkovhetAmbulanceWlEmployeeList {
         <div>
           <md-list>
             {this.employees.map(employee => (
-              <md-list-item>
+              <md-list-item onClick={() => this.employeeClicked.emit(employee.id)}>
                 <div slot="headline">
                   {employee.name} {employee.surname}
                 </div>
@@ -37,12 +40,6 @@ export class XkovhetAmbulanceWlEmployeeList {
               </md-list-item>
             ))}
           </md-list>
-        </div>
-
-        {/* Back button */}
-
-        <div>
-          <md-outlined-button onClick={() => window.history.back()}>Back</md-outlined-button>
         </div>
       </Host>
     );

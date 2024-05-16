@@ -22,12 +22,23 @@ export namespace Components {
         "ambulanceId": string;
         "apiBase": string;
     }
+    interface XkovhetFooter {
+        "initialButtonText": string;
+    }
     interface XkovhetNavigation {
     }
 }
 export interface XkovhetAmbulanceWlEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLXkovhetAmbulanceWlEditorElement;
+}
+export interface XkovhetAmbulanceWlEmployeeEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXkovhetAmbulanceWlEmployeeEditorElement;
+}
+export interface XkovhetAmbulanceWlEmployeeListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXkovhetAmbulanceWlEmployeeListElement;
 }
 export interface XkovhetAmbulanceWlListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -58,13 +69,35 @@ declare global {
         prototype: HTMLXkovhetAmbulanceWlEditorElement;
         new (): HTMLXkovhetAmbulanceWlEditorElement;
     };
+    interface HTMLXkovhetAmbulanceWlEmployeeEditorElementEventMap {
+        "editor-closed": string;
+    }
     interface HTMLXkovhetAmbulanceWlEmployeeEditorElement extends Components.XkovhetAmbulanceWlEmployeeEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXkovhetAmbulanceWlEmployeeEditorElementEventMap>(type: K, listener: (this: HTMLXkovhetAmbulanceWlEmployeeEditorElement, ev: XkovhetAmbulanceWlEmployeeEditorCustomEvent<HTMLXkovhetAmbulanceWlEmployeeEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXkovhetAmbulanceWlEmployeeEditorElementEventMap>(type: K, listener: (this: HTMLXkovhetAmbulanceWlEmployeeEditorElement, ev: XkovhetAmbulanceWlEmployeeEditorCustomEvent<HTMLXkovhetAmbulanceWlEmployeeEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXkovhetAmbulanceWlEmployeeEditorElement: {
         prototype: HTMLXkovhetAmbulanceWlEmployeeEditorElement;
         new (): HTMLXkovhetAmbulanceWlEmployeeEditorElement;
     };
+    interface HTMLXkovhetAmbulanceWlEmployeeListElementEventMap {
+        "employee-clicked": string;
+    }
     interface HTMLXkovhetAmbulanceWlEmployeeListElement extends Components.XkovhetAmbulanceWlEmployeeList, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXkovhetAmbulanceWlEmployeeListElementEventMap>(type: K, listener: (this: HTMLXkovhetAmbulanceWlEmployeeListElement, ev: XkovhetAmbulanceWlEmployeeListCustomEvent<HTMLXkovhetAmbulanceWlEmployeeListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXkovhetAmbulanceWlEmployeeListElementEventMap>(type: K, listener: (this: HTMLXkovhetAmbulanceWlEmployeeListElement, ev: XkovhetAmbulanceWlEmployeeListCustomEvent<HTMLXkovhetAmbulanceWlEmployeeListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXkovhetAmbulanceWlEmployeeListElement: {
         prototype: HTMLXkovhetAmbulanceWlEmployeeListElement;
@@ -87,6 +120,12 @@ declare global {
         prototype: HTMLXkovhetAmbulanceWlListElement;
         new (): HTMLXkovhetAmbulanceWlListElement;
     };
+    interface HTMLXkovhetFooterElement extends Components.XkovhetFooter, HTMLStencilElement {
+    }
+    var HTMLXkovhetFooterElement: {
+        prototype: HTMLXkovhetFooterElement;
+        new (): HTMLXkovhetFooterElement;
+    };
     interface HTMLXkovhetNavigationElement extends Components.XkovhetNavigation, HTMLStencilElement {
     }
     var HTMLXkovhetNavigationElement: {
@@ -99,6 +138,7 @@ declare global {
         "xkovhet-ambulance-wl-employee-editor": HTMLXkovhetAmbulanceWlEmployeeEditorElement;
         "xkovhet-ambulance-wl-employee-list": HTMLXkovhetAmbulanceWlEmployeeListElement;
         "xkovhet-ambulance-wl-list": HTMLXkovhetAmbulanceWlListElement;
+        "xkovhet-footer": HTMLXkovhetFooterElement;
         "xkovhet-navigation": HTMLXkovhetNavigationElement;
     }
 }
@@ -114,13 +154,18 @@ declare namespace LocalJSX {
         "onEmployee-list"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeEditor {
+        "onEditor-closed"?: (event: XkovhetAmbulanceWlEmployeeEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeList {
+        "onEmployee-clicked"?: (event: XkovhetAmbulanceWlEmployeeListCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlList {
         "ambulanceId"?: string;
         "apiBase"?: string;
         "onEntry-clicked"?: (event: XkovhetAmbulanceWlListCustomEvent<string>) => void;
+    }
+    interface XkovhetFooter {
+        "initialButtonText"?: string;
     }
     interface XkovhetNavigation {
     }
@@ -130,6 +175,7 @@ declare namespace LocalJSX {
         "xkovhet-ambulance-wl-employee-editor": XkovhetAmbulanceWlEmployeeEditor;
         "xkovhet-ambulance-wl-employee-list": XkovhetAmbulanceWlEmployeeList;
         "xkovhet-ambulance-wl-list": XkovhetAmbulanceWlList;
+        "xkovhet-footer": XkovhetFooter;
         "xkovhet-navigation": XkovhetNavigation;
     }
 }
@@ -142,6 +188,7 @@ declare module "@stencil/core" {
             "xkovhet-ambulance-wl-employee-editor": LocalJSX.XkovhetAmbulanceWlEmployeeEditor & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlEmployeeEditorElement>;
             "xkovhet-ambulance-wl-employee-list": LocalJSX.XkovhetAmbulanceWlEmployeeList & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlEmployeeListElement>;
             "xkovhet-ambulance-wl-list": LocalJSX.XkovhetAmbulanceWlList & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlListElement>;
+            "xkovhet-footer": LocalJSX.XkovhetFooter & JSXBase.HTMLAttributes<HTMLXkovhetFooterElement>;
             "xkovhet-navigation": LocalJSX.XkovhetNavigation & JSXBase.HTMLAttributes<HTMLXkovhetNavigationElement>;
         }
     }
