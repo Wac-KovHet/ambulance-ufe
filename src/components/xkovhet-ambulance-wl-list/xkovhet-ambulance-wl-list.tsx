@@ -31,12 +31,26 @@ export class XkovhetAmbulanceWlList {
 
       if (response.status < 299) {
         this.ambulances = response.data;
+        this.calculateEmployeeCount();
+        this.render();
       } else {
         this.errorMessage = `Cannot get ambulances: ${response.statusText}`;
       }
     } catch (error) {
       this.errorMessage = `Cannot get ambulances: ${error.message}`;
     }
+  }
+
+  private calculateEmployeeCount() {
+    this.numberOfAmbulances = this.ambulances.length;
+    this.numberOfDoctors = 0;
+    this.numberOfNurses = 0;
+    this.numberOfPatients = 0;
+
+    this.ambulances.forEach(ambulance => {
+      this.numberOfDoctors += ambulance.doctorCount;
+      this.numberOfNurses += ambulance.nurseCount;
+    });
   }
 
   private async deleteAmbulance(ambulanceId: string) {

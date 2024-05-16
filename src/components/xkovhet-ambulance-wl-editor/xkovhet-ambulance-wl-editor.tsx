@@ -39,6 +39,8 @@ export class XkovhetAmbulanceWlEditor {
     }
   }
 
+  
+
   private async fetchAmbulanceDetails() {
     try {
       const api = AmbulanceListApiFactory(undefined, this.apiBase);
