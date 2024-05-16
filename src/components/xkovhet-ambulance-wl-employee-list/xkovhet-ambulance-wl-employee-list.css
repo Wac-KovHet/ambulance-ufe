@@ -1,21 +1,8 @@
 :host {
-  display: block;
-}
+  --_wl-editor_gap: var(--wl-gap, 0.5rem);
 
-table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-  text-align: left;
+  height: 100%;
 }
 
 :root {
@@ -29,4 +16,39 @@ th {
 [slot='trailing-supporting-text'] {
   width: 100;
   font-size: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+md-divider {
+  margin-bottom: var(--_wl-editor_gap);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the container takes up at least the height of the viewport */
+}
+
+.content {
+  flex: 1; /* Allow the content to grow to fill remaining space */
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  background-color: #f0f0f0; /* Adjust background color as needed */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for visual separation */
+}
+
+.action-button {
+  margin-left: 10px; /* Adjust spacing between action buttons */
 }
