@@ -18,13 +18,6 @@ export class XkovhetAmbulanceWlEditor {
     location: string;
     sizeOfWaitingRoom: number;
     isActive: boolean;
-  } = {
-    name: '',
-    numberOfDoctors: 0,
-    numberOfNurses: 0,
-    location: '',
-    sizeOfWaitingRoom: 0,
-    isActive: false,
   };
 
   @State() private errorMessage: string;
@@ -32,6 +25,7 @@ export class XkovhetAmbulanceWlEditor {
   private formElement: HTMLFormElement;
 
   componentWillLoad() {
+    console.log('Ambulance ID: ', this.ambulanceId);
     // Initialize ambulance details
     this.ambulance = {
       name: '',
@@ -58,6 +52,8 @@ export class XkovhetAmbulanceWlEditor {
         </Host>
       );
     }
+
+    const isUpdate = !!this.ambulanceId;
 
     return (
       <Host>
@@ -123,10 +119,17 @@ export class XkovhetAmbulanceWlEditor {
           <md-outlined-button id="cancel" onClick={() => this.editorClosed.emit('cancel')}>
             Cancel
           </md-outlined-button>
-          <md-filled-button id="confirm" onClick={() => this.updateAmbulance()}>
-            <md-icon slot="icon">save</md-icon>
-            Save
-          </md-filled-button>
+          {isUpdate ? (
+            <md-outlined-button id="update" onClick={() => this.updateAmbulance()}>
+              <md-icon slot="icon">edit</md-icon>
+              Update
+            </md-outlined-button>
+          ) : (
+            <md-filled-button id="confirm" onClick={() => this.createAmbulance()}>
+              <md-icon slot="icon">save</md-icon>
+              Save
+            </md-filled-button>
+          )}
           <md-outlined-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
             <md-icon slot="icon">person</md-icon>
             Employee List
@@ -140,6 +143,11 @@ export class XkovhetAmbulanceWlEditor {
 
   private async updateAmbulance() {
     // Handle saving local data or any other logic
-    this.editorClosed.emit('store');
+    this.editorClosed.emit('update');
+  }
+
+  private async createAmbulance() {
+    // Handle saving local data or any other logic
+    this.editorClosed.emit('create');
   }
 }

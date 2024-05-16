@@ -7,7 +7,6 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface XkovhetAmbulanceWlApp {
-        "ambulanceId": string;
         "apiBase": string;
         "basePath": string;
     }
@@ -15,8 +14,11 @@ export namespace Components {
         "ambulanceId": string;
     }
     interface XkovhetAmbulanceWlEmployeeEditor {
+        "ambulanceId": string;
+        "employeeId": string;
     }
     interface XkovhetAmbulanceWlEmployeeList {
+        "ambulanceId": string;
     }
     interface XkovhetAmbulanceWlList {
         "ambulanceId": string;
@@ -144,7 +146,6 @@ declare global {
 }
 declare namespace LocalJSX {
     interface XkovhetAmbulanceWlApp {
-        "ambulanceId"?: string;
         "apiBase"?: string;
         "basePath"?: string;
     }
@@ -154,9 +155,12 @@ declare namespace LocalJSX {
         "onEmployee-list"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeEditor {
+        "ambulanceId"?: string;
+        "employeeId"?: string;
         "onEditor-closed"?: (event: XkovhetAmbulanceWlEmployeeEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeList {
+        "ambulanceId"?: string;
         "onEmployee-clicked"?: (event: XkovhetAmbulanceWlEmployeeListCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlList {

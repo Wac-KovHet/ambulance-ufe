@@ -15,7 +15,7 @@ export class XkovhetAmbulanceWlApp {
   @State() private relativePath = '';
   @Prop() basePath: string = '';
   @Prop() apiBase: string;
-  @Prop() ambulanceId: string;
+  @State() private ambulanceId: string;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
@@ -50,13 +50,18 @@ export class XkovhetAmbulanceWlApp {
 
     if (segments.length === 2) {
       element = 'ambulance-editor';
+      if (segments[1] !== '@new') {
+        ambulanceId = segments[1];
+      }
     } else if (segments.length === 3) {
       element = 'employee-list';
-      ambulanceId = segments[2];
+      ambulanceId = segments[1];
     } else if (segments.length === 4) {
       element = 'employee-detail';
-      ambulanceId = segments[2];
-      employeeId = segments[3];
+      ambulanceId = segments[1];
+      if (segments[3] !== '@new') {
+        employeeId = segments[3];
+      }
     }
     const navigate = (path: string) => {
       const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
@@ -67,7 +72,7 @@ export class XkovhetAmbulanceWlApp {
       case 'ambulance-editor':
         element = (
           <xkovhet-ambulance-wl-editor
-            ambulance-id={this.ambulanceId}
+            ambulance-id={ambulanceId}
             api-base={this.apiBase}
             oneditor-closed={() => navigate('./list')}
             onemployee-list={() => navigate(this.relativePath + '/employee-list')}
@@ -78,7 +83,7 @@ export class XkovhetAmbulanceWlApp {
         console.log('employee-list');
         element = (
           <xkovhet-ambulance-wl-employee-list
-            ambulance-id={this.ambulanceId}
+            ambulanceId={ambulanceId}
             api-base={this.apiBase}
             onemployee-clicked={(ev: CustomEvent<string>) => navigate(this.relativePath + '/' + ev.detail)}
             oneditor-closed={() => navigate('./list')}
@@ -86,7 +91,7 @@ export class XkovhetAmbulanceWlApp {
         );
         break;
       case 'employee-detail':
-        element = <xkovhet-ambulance-wl-employee-editor />;
+        element = <xkovhet-ambulance-wl-employee-editor ambulanceId={ambulanceId} employeeId={employeeId} />;
         break;
       default:
         element = (
