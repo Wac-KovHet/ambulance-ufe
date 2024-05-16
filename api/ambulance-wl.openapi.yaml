@@ -3,139 +3,103 @@ servers:
   - description: Cluster Endpoint
     url: /api
 info:
-  description: Ambulance Waiting List management for Web-In-Cloud system
+  description: Ambulance management for Web-In-Cloud system
   version: '1.0.0'
-  title: Waiting List Api
+  title: Ambulance Api
   contact:
     email: xkovhet@stuba.sk
   license:
     name: CC BY 4.0
     url: 'https://creativecommons.org/licenses/by/4.0/'
 tags:
-  - name: ambulanceWaitingList
-    description: Ambulance Waiting List API
-  - name: ambulanceConditions
-    description: Patient conditions and symptoms handled in the ambulance
+  - name: ambulanceList
+    description: Ambulance API
+  - name: ambulancePositions
+    description: Employee positions in the ambulance
 paths:
-  '/waiting-list/{ambulanceId}/entries':
+  '/ambulances':
     get:
       tags:
-        - ambulanceWaitingList
-      summary: Provides the ambulance waiting list
-      operationId: getWaitingListEntries
-      description: By using ambulanceId you get list of entries in ambulance waiting list
-      parameters:
-        - in: path
-          name: ambulanceId
-          description: pass the id of the particular ambulance
-          required: true
-          schema:
-            type: string
+        - ambulanceList
+      summary: Provides the ambulance list
+      operationId: getAmbulanceList
+      description: Get list of ambulances
       responses:
         '200':
-          description: value of the waiting list entries
+          description: List of ambulances
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/WaitingListEntry'
+                  $ref: '#/components/schemas/AmbulanceResponseEntry'
               examples:
                 response:
-                  $ref: '#/components/examples/WaitingListEntriesExample'
-        '404':
-          description: Ambulance with such ID does not exist
+                  $ref: '#/components/examples/AmbulanceResponseEntriesExample'
     post:
       tags:
-        - ambulanceWaitingList
-      summary: Saves new entry into waiting list
-      operationId: createWaitingListEntry
-      description: Use this method to store new entry into the waiting list.
-      parameters:
-        - in: path
-          name: ambulanceId
-          description: pass the id of the particular ambulance
-          required: true
-          schema:
-            type: string
+        - ambulanceList
+      summary: Saves new entry into ambulance list
+      operationId: createAmbulanceEntry
+      description: Use this method to store new entry into the ambulance list.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WaitingListEntry'
+              $ref: '#/components/schemas/AmbulanceRequestEntry'
             examples:
               request-sample:
-                $ref: '#/components/examples/WaitingListEntryExample'
-        description: Waiting list entry to store
+                $ref: '#/components/examples/AmbulanceRequestEntryExample'
+        description: Ambulance entry to store
         required: true
       responses:
         '200':
-          description: >-
-            Value of the waiting list entry with re-computed estimated time of
-            ambulance entry
+          description: Value of the ambulance entry
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WaitingListEntry'
+                $ref: '#/components/schemas/AmbulanceResponseEntry'
               examples:
                 updated-response:
-                  $ref: '#/components/examples/WaitingListEntryExample'
+                  $ref: '#/components/examples/AmbulanceResponseEntryExample'
         '400':
           description: Missing mandatory properties of input object.
-        '404':
-          description: Ambulance with such ID does not exists
-        '409':
-          description: Entry with the specified id already exists
-  '/waiting-list/{ambulanceId}/entries/{entryId}':
+  '/ambulances/{ambulanceId}':
     get:
       tags:
-        - ambulanceWaitingList
-      summary: Provides details about waiting list entry
-      operationId: getWaitingListEntry
-      description: >-
-        By using ambulanceId and entryId you can details of particular entry
-        item ambulance.
+        - ambulanceList
+      summary: Provides details about the ambulance
+      operationId: getAmbulanceEntry
+      description: By using ambulanceId you can details of particular ambulance.
       parameters:
         - in: path
           name: ambulanceId
           description: pass the id of the particular ambulance
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: entryId
-          description: pass the id of the particular entry in the waiting list
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: value of the waiting list entries
+          description: value of the ambulance entry
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WaitingListEntry'
+                $ref: '#/components/schemas/AmbulanceResponseEntry'
               examples:
                 response:
-                  $ref: '#/components/examples/WaitingListEntryExample'
+                  $ref: '#/components/examples/AmbulanceResponseEntryExample'
         '404':
-          description: Ambulance or Entry with such ID does not exists
+          description: Ambulance with such ID does not exists
     put:
       tags:
-        - ambulanceWaitingList
+        - ambulanceList
       summary: Updates specific entry
-      operationId: updateWaitingListEntry
-      description: Use this method to update content of the waiting list entry.
+      operationId: updateAmbulanceEntry
+      description: Use this method to update content of the ambulance entry.
       parameters:
         - in: path
           name: ambulanceId
           description: pass the id of the particular ambulance
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: entryId
-          description: pass the id of the particular entry in the waiting list
           required: true
           schema:
             type: string
@@ -143,46 +107,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WaitingListEntry'
+              $ref: '#/components/schemas/AmbulanceRequestEntry'
             examples:
               request:
-                $ref: '#/components/examples/WaitingListEntryExample'
-        description: Waiting list entry to update
+                $ref: '#/components/examples/AmbulanceRequestEntryExample'
+        description: Ambulance entry to update
         required: true
       responses:
         '200':
-          description: >-
-            value of the waiting list entry with re-computed estimated time of
-            ambulance entry
+          description: Value of the ambulance entry
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WaitingListEntry'
+                $ref: '#/components/schemas/AmbulanceResponseEntry'
               examples:
                 response:
-                  $ref: '#/components/examples/WaitingListEntryExample'
-        '403':
-          description: >-
-            Value of the entryID and the data id is mismatching. Details are
-            provided in the response body.
+                  $ref: '#/components/examples/AmbulanceResponseEntryExample'
         '404':
-          description: Ambulance or Entry with such ID does not exists
+          description: Ambulance with such ID does not exists
     delete:
       tags:
-        - ambulanceWaitingList
+        - ambulanceList
       summary: Deletes specific entry
-      operationId: deleteWaitingListEntry
-      description: Use this method to delete the specific entry from the waiting list.
+      operationId: deleteAmbulanceEntry
+      description: Use this method to delete the specific entry from the ambulance list.
       parameters:
         - in: path
           name: ambulanceId
           description: pass the id of the particular ambulance
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: entryId
-          description: pass the id of the particular entry in the waiting list
           required: true
           schema:
             type: string
@@ -190,14 +142,14 @@ paths:
         '204':
           description: Item deleted
         '404':
-          description: Ambulance or Entry with such ID does not exists
-  '/waiting-list/{ambulanceId}/condition':
+          description: Ambulance with such ID does not exists
+  '/ambulances/{ambulanceId}/employees':
     get:
       tags:
-        - ambulanceConditions
-      summary: Provides the list of conditions associated with ambulance
-      operationId: getConditions
-      description: By using ambulanceId you get list of predefined conditions
+        - emloyeeList
+      summary: Provides details the ambulance employee list
+      operationId: getEmployeeList
+      description: By using ambulanceId you can get employee list.
       parameters:
         - in: path
           name: ambulanceId
@@ -207,148 +159,263 @@ paths:
             type: string
       responses:
         '200':
-          description: value of the predefined conditions
+          description: List of employees
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Condition'
+                  $ref: '#/components/schemas/EmployeeEntry'
               examples:
                 response:
-                  $ref: '#/components/examples/ConditionsListExample'
+                  $ref: '#/components/examples/EmployeeEntriesExample'
         '404':
           description: Ambulance with such ID does not exists
+  '/ambulances/{ambulanceId}/employees/{employeeId}':
+    get:
+      tags:
+        - emloyeeList
+      summary: Provides details about the employee
+      operationId: getEmployeeEntry
+      description: By using ambulanceId and employeeId you can details of particular employee.
+      parameters:
+        - in: path
+          name: ambulanceId
+          description: pass the id of the particular ambulance
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: employeeId
+          description: pass the id of the particular employee
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: value of the employee entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeEntry'
+              examples:
+                response:
+                  $ref: '#/components/examples/EmployeeEntryExample'
+        '403':
+          description: Value of the ambulanceId and employeeId is mismatching.
+        '404':
+          description: Ambulance or Employee with such ID does not exists
+    put:
+      tags:
+        - emloyeeList
+      summary: Updates specific entry
+      operationId: updateEmployeeEntry
+      description: Use this method to update content of the employee entry.
+      parameters:
+        - in: path
+          name: ambulanceId
+          description: pass the id of the particular ambulance
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: employeeId
+          description: pass the id of the particular employee
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeEntry'
+            examples:
+              request:
+                $ref: '#/components/examples/EmployeeEntryExample'
+        description: Employee entry to update
+        required: true
+      responses:
+        '200':
+          description: Value of the ambulance entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeEntry'
+              examples:
+                response:
+                  $ref: '#/components/examples/EmployeeEntryExample'
+        '403':
+          description: Value of the ambulanceId and employeeId is mismatching.
+        '404':
+          description: Ambulance or Employee with such ID does not exists
+    delete:
+      tags:
+        - emloyeeList
+      summary: Deletes specific entry
+      operationId: deleteEmployeeEntry
+      description: Use this method to delete the specific entry from the employee list.
+      parameters:
+        - in: path
+          name: ambulanceId
+          description: pass the id of the particular ambulance
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: employeeId
+          description: pass the id of the particular employee
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Item deleted
+        '403':
+          description: Value of the ambulanceId and employeeId is mismatching.
+        '404':
+          description: Ambulance or Employee with such ID does not exists
 components:
   schemas:
-    WaitingListEntry:
+    AmbulanceRequestEntry:
       type: object
-      required: [id, patientId, waitingSince, estimatedDurationMinutes]
+      required: [id, name, location, contact]
       properties:
         id:
           type: string
           example: x321ab3
-          description: Unique id of the entry in this waiting list
+          description: Unique id of the ambulance
         name:
           type: string
-          example: Jóžin Púčik
-          description: Name of patient in waiting list
-        patientId:
+          example: Cardiology Ambulance
+          description: Name of ambulance
+        location:
           type: string
-          example: 460527-jozef-pucik
-          description: Unique identifier of the patient known to Web-In-Cloud system
-        waitingSince:
+          example: A 1.34
+          description: Location of ambulance
+        contact:
           type: string
-          format: date-time
-          example: '2038-12-24T10:05:00Z'
-          description: Timestamp since when the patient entered the waiting list
-        estimatedStart:
-          type: string
-          format: date-time
-          example: '2038-12-24T10:35:00Z'
-          description: Estimated time of entering ambulance. Ignored on post.
-        estimatedDurationMinutes:
-          type: integer
-          format: int32
-          example: 15
-          description: >-
-            Estimated duration of ambulance visit. If not provided then it will
-            be computed based on condition and ambulance settings
-        condition:
-          $ref: '#/components/schemas/Condition'
+          example: cardiology@gmail.com
+          description: Contact for ambulance
       example:
-        $ref: '#/components/examples/WaitingListEntryExample'
-    Condition:
-      description: 'Describes disease, symptoms, or other reasons of patient   visit'
-      required:
-        - value
+        $ref: '#/components/examples/AmbulanceRequestEntryExample'
+    AmbulanceResponseEntry:
+      type: object
+      required: [id, name, location, contact, 'nurseCount', 'doctorCount']
       properties:
-        value:
+        id:
           type: string
-          example: Teploty
-        code:
+          example: x321ab3
+          description: Unique id of the ambulance
+        name:
           type: string
-          example: subfebrilia
-        reference:
+          example: Cardiology Ambulance
+          description: Name of ambulance
+        location:
           type: string
-          format: url
-          example: 'https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/'
-          description: Link to encyclopedical explanation of the patient's condition
-        typicalDurationMinutes:
-          type: integer
-          format: int32
-          example: 20
+          example: A 1.34
+          description: Location of ambulance
+        contact:
+          type: string
+          example: cardiology@gmail.com
+          description: Contact for ambulance
+        nurseCount:
+          type: string
+          example: 10
+          description: Number of nurses
+        doctorCount:
+          type: string
+          example: 5
+          description: Number of doctors
       example:
-        $ref: '#/components/examples/ConditionExample'
+        $ref: '#/components/examples/AmbulanceResponseEntryExample'
+    EmployeeResponseEntry:
+      type: object
+      required: [id, name, surname, dateOfBirth, 'position', 'wage']
+      properties:
+        id:
+          type: string
+          example: x321ab3
+          description: Unique id of the employee
+        name:
+          type: string
+          example: Bill
+          description: Name of employee
+        surname:
+          type: string
+          example: Gates
+          description: Surname of employee
+        dateOfBirth:
+          type: string
+          format: date
+          example: '2000-01-01'
+          description: Date of birth of employee
+        position:
+          type: string
+          example: Doctor
+          description: Position of employee
+      example:
+        $ref: '#/components/examples/EmployeeEntryExample'
   examples:
-    WaitingListEntryExample:
-      summary: Ľudomír Zlostný waiting
+    AmbulanceRequestEntryExample:
+      summary: Cardiology Ambulance
       description: |
-        Entry represents a patient waiting in the ambulance prep room with
-        defined symptoms
+        Entry represents an ambulance request entry
       value:
         id: x321ab3
-        name: Ľudomír Zlostný
-        patientId: 74895-ludomir-zlostny
-        waitingSince: '2038-12-24T10:05:00.000Z'
-        estimatedStart: '2038-12-24T10:35:00.000Z'
-        estimatedDurationMinutes: 15
-        condition:
-          value: Nevoľnosť
-          code: nausea
-          reference: 'https://zdravoteka.sk/priznaky/nevolnost/'
-    ConditionExample:
-      summary: Conditions and symptoms
-      description: list of few symptoms that can be chosen by patients
-      value:
-        valuee: Teploty
-        code: subfebrilia
-        reference: >-
-          https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/
-    WaitingListEntriesExample:
-      summary: List of waiting patients
+        name: Cardiology Ambulance
+        location: A 1.34
+        contact: cardiology@gmail.com
+    AmbulanceResponseEntryExample:
+      summary: Cardiology Ambulance
       description: |
-        Example waiting list containing 2 patients
+        Entry represents an ambulance response entry
+      value:
+        id: x321ab3
+        name: Cardiology Ambulance
+        location: A 1.34
+        contact: cardiology@gmail.com
+        nurseCount: 10
+        doctorCount: 5
+    AmbulanceResponseEntriesExample:
+      summary: List of ambulances
+      description: Example ambulance list containing 2 ambulances
       value:
         - id: x321ab3
-          name: Jóžin Púčik
-          patientId: 460527-jozef-pucik
-          waitingSince: '2038-12-24T10:05:00.000Z'
-          estimatedStart: '2038-12-24T10:35:00.000Z'
-          estimatedDurationMinutes: 15
-          condition:
-            value: Teploty
-            code: subfebrilia
-            reference: 'https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/'
+          name: Cardiology Ambulance
+          location: A 1.34
+          contact: cardiology@gmail.com
+          nurseCount: 10
+          doctorCount: 5
         - id: x321ab4
-          name: Ferdinand Trety
-          patientId: 780907-ferdinand-tre
-          waitingSince: '2038-12-24T10:25:00.000Z'
-          estimatedStart: '2038-12-24T10:50:00.000Z'
-          estimatedDurationMinutes: 25
-          condition:
-            value: Nevoľnosť
-            code: nausea
-            reference: 'https://zdravoteka.sk/priznaky/nevolnost/'
-    ConditionsListExample:
-      summary: Sample of GP ambulance conditions
-      description: |
-        Example list of possible conditions, symptoms, and visit reasons
+          name: Chirurgical Ambulance
+          location: B 3.12
+          contact: chirurgy@gmail.com
+          nurseCount: 5
+          doctorCount: 2
+    EmployeeEntryExample:
+      summary: Bill Gates employee
+      description: Entry represents an employee entry
       value:
-        - value: Teploty
-          code: subfebrilia
-          reference: 'https://zdravoteka.sk/priznaky/zvysena-telesna-teplota/'
-          typicalDurationMinutes: 20
-        - value: Nevoľnosť
-          code: nausea
-          reference: 'https://zdravoteka.sk/priznaky/nevolnost/'
-          typicalDurationMinutes: 45
-        - value: Kontrola
-          code: followup
-          typicalDurationMinutes: 15
-        - value: Administratívny úkon
-          code: administration
-          typicalDurationMinutes: 10
-        - value: Odber krvi
-          code: blood-test
-          typicalDurationMinutes: 10
+        id: x321ab3
+        name: Bill
+        surname: Gates
+        dateOfBirth: '2000-01-01'
+        position: Doctor
+        wage: 100
+    EmployeeEntriesExample:
+      summary: List of employees
+      description: Example employee list containing 2 employees
+      value:
+        - id: x321ab3
+          name: Bill
+          surname: Gates
+          dateOfBirth: '2000-01-01'
+          position: Doctor
+          wage: 100
+        - id: x321dsads
+          name: Donald
+          surname: Trump
+          dateOfBirth: '2000-01-01'
+          position: Nurse
+          wage: 1000
+
