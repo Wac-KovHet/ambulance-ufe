@@ -1,13 +1,5 @@
 import { Component, Host, h, State, Event, EventEmitter, Prop } from '@stencil/core';
-
-interface Employee {
-  id: string;
-  name: string;
-  surname: string;
-  dateOfBirth: string;
-  position: 'doctor' | 'nurse';
-  wage: number;
-}
+import { EmployeeListApiFactory, EmployeeResponse } from '../../api/ambulance-wl';
 
 @Component({
   tag: 'xkovhet-ambulance-wl-employee-list',
@@ -16,36 +8,73 @@ interface Employee {
 })
 export class XkovhetAmbulanceWlEmployeeList {
   @Event({ eventName: 'employee-clicked' }) employeeClicked: EventEmitter<string>;
-
+  @Prop() apiBase: string;
   @Prop() ambulanceId: string;
 
-  @State() employees: Employee[] = [
-    { id: '1', name: 'John', surname: 'Doe', dateOfBirth: '1985-01-15', position: 'doctor', wage: 5000 },
-    { id: '2', name: 'Jane', surname: 'Smith', dateOfBirth: '1990-05-22', position: 'nurse', wage: 3500 },
-    // Add more employees as needed
-  ];
+  @State() employees: EmployeeResponse[] = [];
+  @State() errorMessage: string = '';
 
   async componentWillLoad() {
-    console.log(this.ambulanceId);
+    this.fetchEmployees();
+  }
+
+  private async fetchEmployees() {
+    try {
+      const api = EmployeeListApiFactory(undefined, this.apiBase);
+      const response = await api.getEmployeeList(this.ambulanceId);
+
+      if (response.status === 200) {
+        this.employees = await response.data;
+      }
+    } catch (error) {
+      this.errorMessage = 'Failed to fetch employees';
+      console.error('Failed to fetch employees', error);
+    }
+  }
+
+  private async deleteEmployee(employeeId: string) {
+    try {
+      const api = EmployeeListApiFactory(undefined, this.apiBase);
+      const response = await api.deleteEmployee(this.ambulanceId, employeeId);
+
+      if (response.status === 204) {
+        this.employees = this.employees.filter(employee => employee.id !== employeeId);
+      }
+    } catch (error) {
+      console.error('Failed to delete employee', error);
+    }
   }
 
   render() {
     return (
       <Host>
         <div>
-          <md-list>
-            {this.employees.map(employee => (
-              <md-list-item onClick={() => this.employeeClicked.emit(employee.id)}>
-                <div slot="headline">
-                  {employee.name} {employee.surname}
-                </div>
-                <div slot="supporting-text">
-                  {employee.dateOfBirth} - {employee.position}
-                </div>
-                <div slot="trailing-supporting-text">{'Wage: ' + employee.wage}$</div>
-              </md-list-item>
-            ))}
-          </md-list>
+          {this.errorMessage ? (
+            <div class="error">{this.errorMessage}</div>
+          ) : (
+            <div>
+              <md-list>
+                {this.employees.map(employee => (
+                  <md-list-item>
+                    <div slot="headline">
+                      {employee.name} {employee.surname}
+                    </div>
+                    <div slot="supporting-text">
+                      {employee.dateOfBirth} - {employee.position}
+                    </div>
+                    <div slot="trailing-supporting-text">{'Wage: ' + employee.wage}$</div>
+                    <md-filled-icon-button slot="end" class="update-button" onclick={() => this.employeeClicked.emit(employee.id)}>
+                      <md-icon>edit</md-icon>
+                    </md-filled-icon-button>
+                    <md-filled-icon-button slot="end" class="delete-button" onclick={() => this.deleteEmployee(employee.id)}>
+                      {' '}
+                      <md-icon>delete</md-icon>
+                    </md-filled-icon-button>
+                  </md-list-item>
+                ))}
+              </md-list>
+            </div>
+          )}
         </div>
 
         <div class="actions">

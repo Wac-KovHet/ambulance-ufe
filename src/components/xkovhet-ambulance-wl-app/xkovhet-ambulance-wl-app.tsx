@@ -15,7 +15,6 @@ export class XkovhetAmbulanceWlApp {
   @State() private relativePath = '';
   @Prop() basePath: string = '';
   @Prop() apiBase: string;
-  @State() private ambulanceId: string;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
@@ -91,12 +90,19 @@ export class XkovhetAmbulanceWlApp {
         );
         break;
       case 'employee-detail':
-        element = <xkovhet-ambulance-wl-employee-editor ambulanceId={ambulanceId} employeeId={employeeId} />;
+        element = (
+          <xkovhet-ambulance-wl-employee-editor
+            ambulanceId={ambulanceId}
+            employeeId={employeeId}
+            api-base={this.apiBase}
+            onEditor-closed={() => navigate('ambulances/' + ambulanceId + '/employee-list')}
+          />
+        );
         break;
       default:
         element = (
           <xkovhet-ambulance-wl-list
-            ambulance-id={this.ambulanceId}
+            ambulance-id={ambulanceId}
             api-base={this.apiBase}
             onentry-clicked={(ev: CustomEvent<string>) => navigate('./ambulances/' + ev.detail)}
           ></xkovhet-ambulance-wl-list>

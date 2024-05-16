@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Waiting List Api
- * Ambulance Waiting List management for Web-In-Cloud system
+ * Ambulance Api
+ * Ambulance management for Web-In-Cloud system
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: xkovhet@stuba.sk
@@ -89,17 +89,17 @@ function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: an
     if (typeof parameter === "object") {
         if (Array.isArray(parameter)) {
             (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
-        }
+        } 
         else {
-            Object.keys(parameter).forEach(currentKey =>
+            Object.keys(parameter).forEach(currentKey => 
                 setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}${key !== '' ? '.' : ''}${currentKey}`)
             );
         }
-    }
+    } 
     else {
         if (urlSearchParams.has(key)) {
             urlSearchParams.append(key, parameter);
-        }
+        } 
         else {
             urlSearchParams.set(key, parameter);
         }

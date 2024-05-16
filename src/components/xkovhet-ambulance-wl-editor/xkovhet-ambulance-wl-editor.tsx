@@ -1,5 +1,7 @@
 import { Component, Host, Prop, State, h, EventEmitter, Event } from '@stencil/core';
 
+import { AmbulanceListApiFactory, AmbulanceResponse, AmbulanceRequest } from '../../api/ambulance-wl/api';
+
 @Component({
   tag: 'xkovhet-ambulance-wl-editor',
   styleUrl: 'xkovhet-ambulance-wl-editor.css',
@@ -8,40 +10,99 @@ import { Component, Host, Prop, State, h, EventEmitter, Event } from '@stencil/c
 export class XkovhetAmbulanceWlEditor {
   @Prop() ambulanceId: string;
 
+  @Prop() apiBase: string;
   @Event({ eventName: 'editor-closed' }) editorClosed: EventEmitter<string>;
   @Event({ eventName: 'employee-list' }) employeeList: EventEmitter<string>;
 
-  @State() private ambulance: {
-    name: string;
-    numberOfDoctors: number;
-    numberOfNurses: number;
-    location: string;
-    sizeOfWaitingRoom: number;
-    isActive: boolean;
-  };
-
-  @State() private errorMessage: string;
-
+  @State() ambulance: AmbulanceResponse;
+  @State() ambulanceRequest: AmbulanceRequest;
   private formElement: HTMLFormElement;
 
+  @State() private errorMessage: string = '';
+  private handleInputEvent(ev: InputEvent): string {
+    const target = ev.target as HTMLInputElement;
+
+    return target.value;
+  }
   componentWillLoad() {
-    console.log('Ambulance ID: ', this.ambulanceId);
-    // Initialize ambulance details
-    this.ambulance = {
-      name: '',
-      numberOfDoctors: 0,
-      numberOfNurses: 0,
-      location: '',
-      sizeOfWaitingRoom: 0,
-      isActive: false,
-    };
+    if (this.ambulanceId) {
+      this.fetchAmbulanceDetails();
+    } else {
+      this.ambulance = {
+        id: '',
+        name: '',
+        location: '',
+        doctorCount: 0,
+        nurseCount: 0,
+        contact: '',
+      };
+    }
   }
 
-  private handleSliderInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    console.log('Slider value: ', target.value);
-    this.ambulance.sizeOfWaitingRoom = parseInt(target.value);
-    this.formElement.addEventListener('submit', this.updateAmbulance);
+  private async fetchAmbulanceDetails() {
+    try {
+      const api = AmbulanceListApiFactory(undefined, this.apiBase);
+      const response = await api.getAmbulance(this.ambulanceId);
+
+      if (response.status === 200) {
+        this.ambulance = await response.data;
+      }
+    } catch (error) {
+      this.errorMessage = 'Failed to fetch ambulance details';
+    }
+  }
+
+  private checkValidity() {
+    for (let i = 0; i < this.formElement.children.length; i++) {
+      const element = this.formElement.children[i];
+      if ('reportValidity' in element) {
+        const valid = (element as HTMLInputElement).reportValidity();
+        if (!valid) {
+          return true;
+        }
+      }
+    }
+  }
+
+  private async createAmbulance() {
+    const ambulanceRequest: AmbulanceRequest = {
+      name: this.ambulance.name,
+      location: this.ambulance.location,
+      contact: this.ambulance.contact,
+    };
+    if (this.checkValidity()) {
+      return;
+    }
+    try {
+      const api = AmbulanceListApiFactory(undefined, this.apiBase);
+      const response = await api.createAmbulance(ambulanceRequest);
+      if (response.status === 201) {
+        this.editorClosed.emit('create');
+      }
+    } catch (error) {
+      this.errorMessage = 'Failed to create ambulance';
+    }
+  }
+
+  private async updateAmbulance() {
+    if (this.checkValidity()) {
+      return;
+    }
+    const ambulanceRequest: AmbulanceRequest = {
+      name: this.ambulance.name,
+      location: this.ambulance.location,
+      contact: this.ambulance.contact,
+    };
+    try {
+      const api = AmbulanceListApiFactory(undefined, this.apiBase);
+      const response = await api.updateAmbulance(this.ambulanceId, ambulanceRequest);
+
+      if (response.status === 200) {
+        this.editorClosed.emit('update');
+      }
+    } catch (error) {
+      this.errorMessage = 'Failed to update ambulance';
+    }
   }
 
   render() {
@@ -57,97 +118,81 @@ export class XkovhetAmbulanceWlEditor {
 
     return (
       <Host>
-        <form ref={el => (this.formElement = el)}>
-          <md-filled-text-field label="Name" required value={this.ambulance.name} onInput={(ev: InputEvent) => (this.ambulance.name = (ev.target as HTMLInputElement).value)}>
-            <md-icon slot="leading-icon">business</md-icon>
-          </md-filled-text-field>
-
-          <md-filled-text-field
-            label="Number of Doctors"
-            required
-            type="number"
-            value={this.ambulance.numberOfDoctors.toString()}
-            onInput={(ev: InputEvent) => (this.ambulance.numberOfDoctors = parseInt((ev.target as HTMLInputElement).value))}
-          >
-            <md-icon slot="leading-icon">people</md-icon>
-          </md-filled-text-field>
-
-          <md-filled-text-field
-            label="Number of Nurses"
-            required
-            type="number"
-            value={this.ambulance.numberOfNurses.toString()}
-            onInput={(ev: InputEvent) => (this.ambulance.numberOfNurses = parseInt((ev.target as HTMLInputElement).value))}
-          >
-            <md-icon slot="leading-icon">people</md-icon>
-          </md-filled-text-field>
-
-          <md-filled-text-field
-            label="Location"
-            required
-            value={this.ambulance.location}
-            onInput={(ev: InputEvent) => (this.ambulance.location = (ev.target as HTMLInputElement).value)}
-          >
-            <md-icon slot="leading-icon">location_on</md-icon>
-          </md-filled-text-field>
-
-          <div class="size-slider">
-            <span class="label">Size of Waiting Room: </span>
-            <span class="label">{this.ambulance.numberOfNurses}</span>
-            <md-slider
-              min={1}
-              max={100}
-              step={1}
-              ticks
-              labeled
-              value={this.ambulance.sizeOfWaitingRoom}
-              onInput={(ev: InputEvent) => {
-                this.ambulance.sizeOfWaitingRoom = parseInt((ev.target as HTMLInputElement).value);
-                this.handleSliderInput(ev);
-              }}
-            ></md-slider>
-          </div>
-
-          <label class="checkbox">
-            <md-checkbox touch-target="wrapper"></md-checkbox>
-            Is Active
-          </label>
-        </form>
-
-        <md-divider></md-divider>
-        <div class="actions">
-          <md-outlined-button id="cancel" onClick={() => this.editorClosed.emit('cancel')}>
-            Cancel
-          </md-outlined-button>
-          {isUpdate ? (
-            <md-outlined-button id="update" onClick={() => this.updateAmbulance()}>
-              <md-icon slot="icon">edit</md-icon>
-              Update
-            </md-outlined-button>
+        <div>
+          {this.errorMessage ? (
+            <div class="error">{this.errorMessage}</div>
           ) : (
-            <md-filled-button id="confirm" onClick={() => this.createAmbulance()}>
-              <md-icon slot="icon">save</md-icon>
-              Save
-            </md-filled-button>
-          )}
-          <md-outlined-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
-            <md-icon slot="icon">person</md-icon>
-            Employee List
-          </md-outlined-button>
-        </div>
+            <div>
+              <form ref={el => (this.formElement = el)}>
+                <md-filled-text-field
+                  label="Name"
+                  required
+                  value={this.ambulance?.name}
+                  onInput={(ev: InputEvent) => {
+                    if (this.ambulance) {
+                      this.ambulance.name = this.handleInputEvent(ev);
+                    }
+                  }}
+                >
+                  <md-icon slot="leading-icon">business</md-icon>
+                </md-filled-text-field>
 
-        {/* add button to open employee list */}
+                <md-filled-text-field
+                  label="Location"
+                  required
+                  value={this.ambulance?.location}
+                  onInput={(ev: InputEvent) => (this.ambulance.location = (ev.target as HTMLInputElement).value)}
+                >
+                  <md-icon slot="leading-icon">location_on</md-icon>
+                </md-filled-text-field>
+
+                {/* contact */}
+                <md-filled-text-field
+                  label="Contact"
+                  required
+                  value={this.ambulance?.contact}
+                  onInput={(ev: InputEvent) => (this.ambulance.contact = (ev.target as HTMLInputElement).value)}
+                >
+                  <md-icon slot="leading-icon">phone</md-icon>
+                </md-filled-text-field>
+
+                <md-divider></md-divider>
+                <md-filled-text-field label="Number of Doctors" disabled type="number" value={this.ambulance?.doctorCount.toString()}>
+                  <md-icon slot="leading-icon">people</md-icon>
+                </md-filled-text-field>
+
+                <md-filled-text-field label="Number of Nurses" required disabled type="number" value={this.ambulance?.nurseCount.toString()}>
+                  <md-icon slot="leading-icon">people</md-icon>
+                </md-filled-text-field>
+              </form>
+
+              <md-divider></md-divider>
+              <div class="actions">
+                <md-outlined-button id="cancel" onClick={() => this.editorClosed.emit('cancel')}>
+                  Cancel
+                </md-outlined-button>
+                {isUpdate ? (
+                  <div>
+                    <md-outlined-button id="update" onClick={() => this.updateAmbulance()}>
+                      <md-icon slot="icon">edit</md-icon>
+                      Update
+                    </md-outlined-button>
+                    <md-outlined-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
+                      <md-icon slot="icon">person</md-icon>
+                      Employee List
+                    </md-outlined-button>
+                  </div>
+                ) : (
+                  <md-filled-button id="confirm" onClick={() => this.createAmbulance()}>
+                    <md-icon slot="icon">save</md-icon>
+                    Create
+                  </md-filled-button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </Host>
     );
-  }
-
-  private async updateAmbulance() {
-    // Handle saving local data or any other logic
-    this.editorClosed.emit('update');
-  }
-
-  private async createAmbulance() {
-    // Handle saving local data or any other logic
-    this.editorClosed.emit('create');
   }
 }

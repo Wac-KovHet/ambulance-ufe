@@ -12,13 +12,16 @@ export namespace Components {
     }
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId": string;
+        "apiBase": string;
     }
     interface XkovhetAmbulanceWlEmployeeEditor {
         "ambulanceId": string;
+        "apiBase": string;
         "employeeId": string;
     }
     interface XkovhetAmbulanceWlEmployeeList {
         "ambulanceId": string;
+        "apiBase": string;
     }
     interface XkovhetAmbulanceWlList {
         "ambulanceId": string;
@@ -151,16 +154,19 @@ declare namespace LocalJSX {
     }
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId"?: string;
+        "apiBase"?: string;
         "onEditor-closed"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
         "onEmployee-list"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeEditor {
         "ambulanceId"?: string;
+        "apiBase"?: string;
         "employeeId"?: string;
         "onEditor-closed"?: (event: XkovhetAmbulanceWlEmployeeEditorCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlEmployeeList {
         "ambulanceId"?: string;
+        "apiBase"?: string;
         "onEmployee-clicked"?: (event: XkovhetAmbulanceWlEmployeeListCustomEvent<string>) => void;
     }
     interface XkovhetAmbulanceWlList {
