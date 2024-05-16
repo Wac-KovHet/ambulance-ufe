@@ -14,8 +14,8 @@ info:
 tags:
   - name: ambulanceList
     description: Ambulance API
-  - name: ambulancePositions
-    description: Employee positions in the ambulance
+  - name: employeeList
+    description: Employee API
 paths:
   '/ambulances':
     get:
