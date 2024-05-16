@@ -43,6 +43,7 @@ export class XkovhetAmbulanceWlApp {
     let element = 'list';
     let entryId = '@new';
 
+    console.log('relativePath', this.relativePath);
     if (this.relativePath.startsWith('entry/')) {
       element = 'editor';
       entryId = this.relativePath.split('/')[1];
@@ -50,6 +51,10 @@ export class XkovhetAmbulanceWlApp {
 
     if (this.relativePath === 'detail') {
       element = 'detail';
+    }
+
+    if (this.relativePath.endsWith('employee-list')) {
+      element = 'employee-list';
     }
 
     const navigate = (path: string) => {
@@ -65,12 +70,24 @@ export class XkovhetAmbulanceWlApp {
             ambulance-id={this.ambulanceId}
             api-base={this.apiBase}
             oneditor-closed={() => navigate('./list')}
+            onemployee-list={() => navigate(this.relativePath + '/employee-list')}
           ></xkovhet-ambulance-wl-editor>
         );
         entryId = this.relativePath.split('/')[1];
         break;
       case 'detail':
         element = <xkovhet-ambulance-wl-detail ambulance-id={this.ambulanceId} api-base={this.apiBase}></xkovhet-ambulance-wl-detail>;
+        break;
+      case 'employee-list':
+        console.log('employee-list');
+        element = (
+          <xkovhet-ambulance-wl-employee-list
+            ambulance-id={this.ambulanceId}
+            api-base={this.apiBase}
+            onemployee-clicked={(ev: CustomEvent<string>) => navigate('./employee/' + ev.detail)}
+            oneditor-closed={() => navigate('./list')}
+          ></xkovhet-ambulance-wl-employee-list>
+        );
         break;
       default:
         element = (
@@ -83,6 +100,11 @@ export class XkovhetAmbulanceWlApp {
         break;
     }
 
-    return <Host>{element}</Host>;
+    return (
+      <Host>
+        <xkovhet-navigation />
+        {element}
+      </Host>
+    );
   }
 }

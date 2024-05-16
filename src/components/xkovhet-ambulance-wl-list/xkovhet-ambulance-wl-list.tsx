@@ -72,16 +72,7 @@ export class XkovhetAmbulanceWlList {
     return (
       <Host>
         {/* Navbar */}
-        <nav class="navbar">
-          <div class="navbar-brand">
-            <md-icon>local_hospital</md-icon>
-            <span class="hospital-name">KovHet</span>
-            <span class="hospital-info">
-              <span class="hospital-address">Ilkovičova 2</span>
-              <span class="hospital-email">kovhet@stuba.sk</span>
-            </span>
-          </div>
-        </nav>
+
         {/* Card with General Information */}
         <div class="card">
           <div class="card-header">General Information</div>

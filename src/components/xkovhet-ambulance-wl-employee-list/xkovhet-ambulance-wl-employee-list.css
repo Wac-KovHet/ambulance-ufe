@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+:root {
+  --md-list-container-color: #f4fbfa;
+  --md-list-item-label-text-color: #161d1d;
+  --md-list-item-supporting-text-color: #3f4948;
+  --md-list-item-trailing-supporting-text-color: #3f4948;
+  --md-list-item-label-text-font: system-ui;
+  --md-list-item-supporting-text-font: system-ui;
+}
+[slot='trailing-supporting-text'] {
+  width: 100;
+  font-size: 1rem;
+}

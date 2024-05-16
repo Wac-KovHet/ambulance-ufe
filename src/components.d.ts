@@ -14,9 +14,15 @@ export namespace Components {
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId": string;
     }
+    interface XkovhetAmbulanceWlEmployeeEditor {
+    }
+    interface XkovhetAmbulanceWlEmployeeList {
+    }
     interface XkovhetAmbulanceWlList {
         "ambulanceId": string;
         "apiBase": string;
+    }
+    interface XkovhetNavigation {
     }
 }
 export interface XkovhetAmbulanceWlEditorCustomEvent<T> extends CustomEvent<T> {
@@ -36,6 +42,7 @@ declare global {
     };
     interface HTMLXkovhetAmbulanceWlEditorElementEventMap {
         "editor-closed": string;
+        "employee-list": string;
     }
     interface HTMLXkovhetAmbulanceWlEditorElement extends Components.XkovhetAmbulanceWlEditor, HTMLStencilElement {
         addEventListener<K extends keyof HTMLXkovhetAmbulanceWlEditorElementEventMap>(type: K, listener: (this: HTMLXkovhetAmbulanceWlEditorElement, ev: XkovhetAmbulanceWlEditorCustomEvent<HTMLXkovhetAmbulanceWlEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -50,6 +57,18 @@ declare global {
     var HTMLXkovhetAmbulanceWlEditorElement: {
         prototype: HTMLXkovhetAmbulanceWlEditorElement;
         new (): HTMLXkovhetAmbulanceWlEditorElement;
+    };
+    interface HTMLXkovhetAmbulanceWlEmployeeEditorElement extends Components.XkovhetAmbulanceWlEmployeeEditor, HTMLStencilElement {
+    }
+    var HTMLXkovhetAmbulanceWlEmployeeEditorElement: {
+        prototype: HTMLXkovhetAmbulanceWlEmployeeEditorElement;
+        new (): HTMLXkovhetAmbulanceWlEmployeeEditorElement;
+    };
+    interface HTMLXkovhetAmbulanceWlEmployeeListElement extends Components.XkovhetAmbulanceWlEmployeeList, HTMLStencilElement {
+    }
+    var HTMLXkovhetAmbulanceWlEmployeeListElement: {
+        prototype: HTMLXkovhetAmbulanceWlEmployeeListElement;
+        new (): HTMLXkovhetAmbulanceWlEmployeeListElement;
     };
     interface HTMLXkovhetAmbulanceWlListElementEventMap {
         "entry-clicked": string;
@@ -68,10 +87,19 @@ declare global {
         prototype: HTMLXkovhetAmbulanceWlListElement;
         new (): HTMLXkovhetAmbulanceWlListElement;
     };
+    interface HTMLXkovhetNavigationElement extends Components.XkovhetNavigation, HTMLStencilElement {
+    }
+    var HTMLXkovhetNavigationElement: {
+        prototype: HTMLXkovhetNavigationElement;
+        new (): HTMLXkovhetNavigationElement;
+    };
     interface HTMLElementTagNameMap {
         "xkovhet-ambulance-wl-app": HTMLXkovhetAmbulanceWlAppElement;
         "xkovhet-ambulance-wl-editor": HTMLXkovhetAmbulanceWlEditorElement;
+        "xkovhet-ambulance-wl-employee-editor": HTMLXkovhetAmbulanceWlEmployeeEditorElement;
+        "xkovhet-ambulance-wl-employee-list": HTMLXkovhetAmbulanceWlEmployeeListElement;
         "xkovhet-ambulance-wl-list": HTMLXkovhetAmbulanceWlListElement;
+        "xkovhet-navigation": HTMLXkovhetNavigationElement;
     }
 }
 declare namespace LocalJSX {
@@ -83,16 +111,26 @@ declare namespace LocalJSX {
     interface XkovhetAmbulanceWlEditor {
         "ambulanceId"?: string;
         "onEditor-closed"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
+        "onEmployee-list"?: (event: XkovhetAmbulanceWlEditorCustomEvent<string>) => void;
+    }
+    interface XkovhetAmbulanceWlEmployeeEditor {
+    }
+    interface XkovhetAmbulanceWlEmployeeList {
     }
     interface XkovhetAmbulanceWlList {
         "ambulanceId"?: string;
         "apiBase"?: string;
         "onEntry-clicked"?: (event: XkovhetAmbulanceWlListCustomEvent<string>) => void;
     }
+    interface XkovhetNavigation {
+    }
     interface IntrinsicElements {
         "xkovhet-ambulance-wl-app": XkovhetAmbulanceWlApp;
         "xkovhet-ambulance-wl-editor": XkovhetAmbulanceWlEditor;
+        "xkovhet-ambulance-wl-employee-editor": XkovhetAmbulanceWlEmployeeEditor;
+        "xkovhet-ambulance-wl-employee-list": XkovhetAmbulanceWlEmployeeList;
         "xkovhet-ambulance-wl-list": XkovhetAmbulanceWlList;
+        "xkovhet-navigation": XkovhetNavigation;
     }
 }
 export { LocalJSX as JSX };
@@ -101,7 +139,10 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "xkovhet-ambulance-wl-app": LocalJSX.XkovhetAmbulanceWlApp & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlAppElement>;
             "xkovhet-ambulance-wl-editor": LocalJSX.XkovhetAmbulanceWlEditor & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlEditorElement>;
+            "xkovhet-ambulance-wl-employee-editor": LocalJSX.XkovhetAmbulanceWlEmployeeEditor & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlEmployeeEditorElement>;
+            "xkovhet-ambulance-wl-employee-list": LocalJSX.XkovhetAmbulanceWlEmployeeList & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlEmployeeListElement>;
             "xkovhet-ambulance-wl-list": LocalJSX.XkovhetAmbulanceWlList & JSXBase.HTMLAttributes<HTMLXkovhetAmbulanceWlListElement>;
+            "xkovhet-navigation": LocalJSX.XkovhetNavigation & JSXBase.HTMLAttributes<HTMLXkovhetNavigationElement>;
         }
     }
 }

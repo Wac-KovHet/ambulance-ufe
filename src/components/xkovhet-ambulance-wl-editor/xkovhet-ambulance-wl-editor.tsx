@@ -9,6 +9,7 @@ export class XkovhetAmbulanceWlEditor {
   @Prop() ambulanceId: string;
 
   @Event({ eventName: 'editor-closed' }) editorClosed: EventEmitter<string>;
+  @Event({ eventName: 'employee-list' }) employeeList: EventEmitter<string>;
 
   @State() private ambulance: {
     name: string;
@@ -127,6 +128,13 @@ export class XkovhetAmbulanceWlEditor {
             Save
           </md-filled-button>
         </div>
+
+        {/* add button to open employee list */}
+
+        <md-filled-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
+          <md-icon slot="icon">save</md-icon>
+          Employee List
+        </md-filled-button>
       </Host>
     );
   }
