@@ -59,6 +59,10 @@ V rámci frontendu je možné vytvárať, upravovať, mazať ambulancie a zamest
 
 V rámci backendu je implementované API pre správu ambulancií a zamestnancov. API poskytuje endpointy pre vytváranie, úpravu, mazanie a získavanie údajov o ambulanciách a zamestnancoch. Komunikácia s databázou je zabezpečená pomocou ORM frameworku.
 
+WEB API funguje spôsobom request, response, pričom sú na pozadí zadefinované konkrétne databázové modely (Ambulance a Employee, ktoré sú ukladané ako jeden dokument, teda jedna ambulancia má pod sebou x-zamestnancov).
+
+Dodatočnou funkcionalitou je spravená validácia na prichádzajúce requesty prostredníctvom balíka: "github.com/go-playground/validator/v10". Validácie sú zadefinované priamo v modeloch requestov.
+
 ## Link na Azure
 
 [Link to Azure](https://xkovhet-ambulance.azurewebsites.net/)
