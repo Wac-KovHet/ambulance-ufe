@@ -27,7 +27,15 @@ V rámci každej ambulancie si viem vytvoriť zamestnanca (CREATE), viem ho upra
 
 ## Linka na DockerHub
 
-[Link to DockerHub](httpshub.com/orgs/Wac-KovHet)
+[Link to DockerHub](https://hub.docker.com/repositories/xkovhet)
+
+## Linka na aplikáciu v spoločnom klastri
+
+[Link to Application](https://wac-24.westeurope.cloudapp.azure.com/ui/xkovhet-ambulance-wl/)
+
+## Link na aplikáciu v Azure
+
+[Link to Azure](https://xkovhet-ambulance.azurewebsites.net/)
 
 ## Názov deployment objektu pre UI
 
@@ -35,7 +43,7 @@ V rámci každej ambulancie si viem vytvoriť zamestnanca (CREATE), viem ho upra
 
 ## Názov deployment objektu pre WEBAPI
 
-**xkovhet-ambulance-ufe**
+**xkovhet-ambulance-webapi**
 
 ## Stručný popis
 
@@ -62,7 +70,3 @@ V rámci backendu je implementované API pre správu ambulancií a zamestnancov.
 WEB API funguje spôsobom request, response, pričom sú na pozadí zadefinované konkrétne databázové modely (Ambulance a Employee, ktoré sú ukladané ako jeden dokument, teda jedna ambulancia má pod sebou x-zamestnancov).
 
 Dodatočnou funkcionalitou je spravená validácia na prichádzajúce requesty prostredníctvom balíka: "github.com/go-playground/validator/v10". Validácie sú zadefinované priamo v modeloch requestov.
-
-## Link na Azure
-
-[Link to Azure](https://xkovhet-ambulance.azurewebsites.net/)
