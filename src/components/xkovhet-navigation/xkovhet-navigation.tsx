@@ -10,8 +10,11 @@ export class XkovhetNavigation {
       <Host>
         <nav class="navbar">
           <div class="navbar-brand">
-            <md-icon>local_hospital</md-icon>
-            <span class="hospital-name">KovHet</span>
+            <a href="/" class="navbar-item">
+              <md-icon>local_hospital</md-icon>
+              <span class="hospital-name">KovHet</span>
+            </a>
+
             <span class="hospital-info">
               <span class="hospital-address">Ilkovičova 2</span>
               <span class="hospital-email">kovhet@stuba.sk</span>

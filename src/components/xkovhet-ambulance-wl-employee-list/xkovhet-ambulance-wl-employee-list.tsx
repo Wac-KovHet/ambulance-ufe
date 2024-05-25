@@ -8,6 +8,7 @@ import { EmployeeListApiFactory, EmployeeResponse } from '../../api/ambulance-wl
 })
 export class XkovhetAmbulanceWlEmployeeList {
   @Event({ eventName: 'employee-clicked' }) employeeClicked: EventEmitter<string>;
+  @Event({ eventName: 'editor-closed' }) editorClosed: EventEmitter<string>;
   @Prop() apiBase: string;
   @Prop() ambulanceId: string;
 
@@ -78,6 +79,9 @@ export class XkovhetAmbulanceWlEmployeeList {
         </div>
 
         <div class="actions">
+          <md-outlined-button slot="end" class="cancel" onClick={() => this.editorClosed.emit()}>
+            Cancel
+          </md-outlined-button>
           <md-outlined-button onClick={() => this.employeeClicked.emit('@new')}>
             <md-icon slot="icon">add</md-icon>
             Add Employee

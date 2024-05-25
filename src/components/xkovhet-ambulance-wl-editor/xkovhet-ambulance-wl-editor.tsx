@@ -34,12 +34,12 @@ export class XkovhetAmbulanceWlEditor {
         location: '',
         doctorCount: 0,
         nurseCount: 0,
+        doctorTotalWage: 0,
+        nurseTotalWage: 0,
         contact: '',
       };
     }
   }
-
-  
 
   private async fetchAmbulanceDetails() {
     try {
@@ -174,16 +174,17 @@ export class XkovhetAmbulanceWlEditor {
                   Cancel
                 </md-outlined-button>
                 {isUpdate ? (
-                  <div>
+                  <jsx>
                     <md-outlined-button id="update" onClick={() => this.updateAmbulance()}>
                       <md-icon slot="icon">edit</md-icon>
                       Update
                     </md-outlined-button>
+
                     <md-outlined-button id="employee-list" onClick={() => this.employeeList.emit('employee')}>
                       <md-icon slot="icon">person</md-icon>
                       Employee List
                     </md-outlined-button>
-                  </div>
+                  </jsx>
                 ) : (
                   <md-filled-button id="confirm" onClick={() => this.createAmbulance()}>
                     <md-icon slot="icon">save</md-icon>

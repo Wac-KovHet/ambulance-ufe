@@ -90,6 +90,18 @@ export interface AmbulanceResponse {
      * @memberof AmbulanceResponse
      */
     'doctorCount': number;
+    /**
+     * Total wage of nurses
+     * @type {number}
+     * @memberof AmbulanceResponse
+     */
+    'nurseTotalWage': number;
+    /**
+     * Total wage of doctors
+     * @type {number}
+     * @memberof AmbulanceResponse
+     */
+    'doctorTotalWage': number;
 }
 /**
  * 

@@ -85,7 +85,7 @@ export class XkovhetAmbulanceWlApp {
             ambulanceId={ambulanceId}
             api-base={this.apiBase}
             onemployee-clicked={(ev: CustomEvent<string>) => navigate(this.relativePath + '/' + ev.detail)}
-            oneditor-closed={() => navigate('./list')}
+            oneditor-closed={() => navigate('./ambulances/' + ambulanceId)}
           ></xkovhet-ambulance-wl-employee-list>
         );
         break;
@@ -113,7 +113,6 @@ export class XkovhetAmbulanceWlApp {
     return (
       <Host>
         <xkovhet-navigation />
-        <xkovhet-footer />
         {element}
       </Host>
     );

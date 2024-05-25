@@ -23,6 +23,7 @@
   flex-direction: row;
   justify-content: flex-end;
   gap: 1rem;
+  margin: 2rem;
 }
 
 md-divider {

@@ -21,6 +21,8 @@ export class XkovhetAmbulanceWlList {
   numberOfDoctors = 0;
   numberOfNurses = 0;
   numberOfPatients = 0;
+  doctorTotalWage = 0;
+  nurseTotalWage = 0;
 
   private async getAmbulancesAsync() {
     this.loading = true;
@@ -31,7 +33,7 @@ export class XkovhetAmbulanceWlList {
 
       if (response.status < 299) {
         this.ambulances = response.data;
-        this.calculateEmployeeCount();
+        this.calculateEmployee();
         this.render();
       } else {
         this.errorMessage = `Cannot get ambulances: ${response.statusText}`;
@@ -41,7 +43,7 @@ export class XkovhetAmbulanceWlList {
     }
   }
 
-  private calculateEmployeeCount() {
+  private calculateEmployee() {
     this.numberOfAmbulances = this.ambulances.length;
     this.numberOfDoctors = 0;
     this.numberOfNurses = 0;
@@ -50,6 +52,8 @@ export class XkovhetAmbulanceWlList {
     this.ambulances.forEach(ambulance => {
       this.numberOfDoctors += ambulance.doctorCount;
       this.numberOfNurses += ambulance.nurseCount;
+      this.doctorTotalWage += ambulance.doctorTotalWage;
+      this.nurseTotalWage += ambulance.nurseTotalWage;
     });
   }
 
@@ -61,7 +65,7 @@ export class XkovhetAmbulanceWlList {
       if (response.status < 299) {
         console.log('Deleted ambulance');
         this.ambulances = this.ambulances.filter(ambulance => ambulance.id !== ambulanceId);
-        this.calculateEmployeeCount();
+        this.calculateEmployee();
         this.render();
       } else {
         this.errorMessage = `Cannot delete ambulance: ${response.statusText}`;
@@ -73,36 +77,48 @@ export class XkovhetAmbulanceWlList {
 
   async componentWillLoad() {
     this.getAmbulancesAsync();
-    this.numberOfAmbulances = this.ambulances.length;
-    this.numberOfDoctors = this.ambulances.reduce((acc, curr) => acc + curr.doctorCount, 0);
-    this.numberOfNurses = this.ambulances.reduce((acc, curr) => acc + curr.nurseCount, 0);
     this.loading = false;
   }
 
   render() {
     return (
       <Host>
-        <div>
-          <div class="card">
-            <div class="card-header">General Information</div>
-            <div class="card-body">
-              <div class="info-item">
-                <md-icon>local_hospital</md-icon>
-                <p>Number of Ambulances: {this.numberOfAmbulances}</p>
-              </div>
-              <div class="info-item">
-                <md-icon>person</md-icon>
-                <p>Number of Doctors: {this.numberOfDoctors}</p>
-              </div>
-              <div class="info-item">
-                <md-icon>nurse</md-icon>
-                <p>Number of Nurses: {this.numberOfNurses}</p>
+        {this.loading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <div>
+            <div class="card">
+              <div class="card-header">General Information</div>
+              <div class="card-body">
+                <div class="info-container">
+                  <div class="info-item">
+                    <md-icon>local_hospital</md-icon>
+                    <p>Number of Ambulances: {this.numberOfAmbulances}</p>
+                  </div>
+                  <div class="info-item">
+                    <md-icon>person</md-icon>
+                    <p class="info-text">
+                      Number of Doctors: <span class="info-value">{this.numberOfDoctors}</span>
+                    </p>
+                    <md-icon>attach_money</md-icon>
+                    <p class="info-text">
+                      Total Wage: <span class="info-value">{this.doctorTotalWage}</span>
+                    </p>
+                  </div>
+                  <div class="info-item">
+                    <md-icon>person</md-icon>
+                    <p class="info-text">
+                      Number of Nurses: <span class="info-value">{this.numberOfNurses}</span>
+                    </p>
+                    <md-icon>attach_money</md-icon>
+                    <p class="info-text">
+                      Total Wage: <span class="info-value">{this.nurseTotalWage}</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          {this.loading ? (
-            <h1>Loading...</h1>
-          ) : (
+
             <div>
               {this.errorMessage ? <div class="error">{this.errorMessage}</div> : ''}
               <md-list class="custom-list">
@@ -128,14 +144,15 @@ export class XkovhetAmbulanceWlList {
                 ))}
               </md-list>
             </div>
-          )}
-          <md-filled-button onclick={() => this.entryClicked.emit('@new')}>
-            <md-icon class="mt-3" slot="icon">
-              add
-            </md-icon>
-            Add New Ambulance
-          </md-filled-button>
-        </div>
+
+            <md-filled-button onclick={() => this.entryClicked.emit('@new')}>
+              <md-icon class="mt-3" slot="icon">
+                add
+              </md-icon>
+              Add New Ambulance
+            </md-filled-button>
+          </div>
+        )}
       </Host>
     );
   }
